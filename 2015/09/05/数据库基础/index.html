@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 数据库基础 · 返屋企的技术宅</title><meta name="description" content="同是基础恶补系列，阅读《漫画数据库》做的笔记，书很薄，以漫画故事的形式讲述，对数据库有个大体的了解
+一. 什么是数据库(1) 数据模型的种类
+层次数据模型: 每个子数据只能有一个母数据
+网状数据模型：可以有多个母数据
+
+以上两种都是通过指针连接数据表示他们的关系；难以灵"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header style="background-image:url(/header-bg.jpg)"><a href="/" class="logo-link"><img src="/avatar.jpeg"></a><p class="info">zhangfengqi</p><p class="profession"><span>tobe 靠谱的 Front-End Developer</span></p><p class="motto">stay curious · stay hungry</p><nav><ul id="navigation"><li><a href="/archives">归档</a></li><li><a href="/about">关于我</a></li></ul></nav><ul class="sn sn-list iconfont"><li class="sn-list-item"><a href="http://weibo.com/jaredzfq" target="_blank" class="sn-list-link icon-weibo"></a></li><li class="sn-list-item"><a href="https://github.com/zfengqi" target="_blank" class="sn-list-link icon-github"></a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">数据库基础</h1><div class="post-meta"><div class="post-time">2015年09月05日</div></div><div class="post-content"><p>同是基础恶补系列，阅读<a href="http://book.douban.com/subject/4829597/" target="_blank" rel="external">《漫画数据库》</a>做的笔记，书很薄，以漫画故事的形式讲述，对数据库有个大体的了解<br><a id="more"></a></p>
+<h2 id="u4E00-__u4EC0_u4E48_u662F_u6570_u636E_u5E93"><a href="#u4E00-__u4EC0_u4E48_u662F_u6570_u636E_u5E93" class="headerlink" title="一. 什么是数据库"></a>一. 什么是数据库</h2><h3 id="281_29__u6570_u636E_u6A21_u578B_u7684_u79CD_u7C7B"><a href="#281_29__u6570_u636E_u6A21_u578B_u7684_u79CD_u7C7B" class="headerlink" title="(1) 数据模型的种类"></a>(1) 数据模型的种类</h3><ul>
+<li>层次数据模型: 每个子数据只能有一个母数据</li>
+<li>网状数据模型：可以有多个母数据</li>
+</ul>
+<p>以上两种都是通过指针连接数据表示他们的关系；难以灵活高效地检索数据</p>
+<ul>
+<li>关系数据模型 —— 当今主流数据库模型</li>
+</ul>
+<h3 id="282_29__u5173_u7CFB_u6570_u636E_u6A21_u578B_u2014_u2014_u4F7F_u7528_u8868_u683C"><a href="#282_29__u5173_u7CFB_u6570_u636E_u6A21_u578B_u2014_u2014_u4F7F_u7528_u8868_u683C" class="headerlink" title="(2) 关系数据模型——使用表格"></a>(2) 关系数据模型——使用表格</h3><ol>
+<li>以二元表格(table)为基础</li>
+<li>在关系数据模型中，称表格为关系(relation)</li>
+<li>主键(primary key): 能够唯一确定数据的列</li>
+</ol>
+<h3 id="283_29__u5173_u7CFB_u6570_u636E_u5E93_u7684_u8FD0_u7B97_u64CD_u4F5C__u2014_u2014__u62BD_u53D6_u6570_u636E_u7684_u65B9_u5F0F"><a href="#283_29__u5173_u7CFB_u6570_u636E_u5E93_u7684_u8FD0_u7B97_u64CD_u4F5C__u2014_u2014__u62BD_u53D6_u6570_u636E_u7684_u65B9_u5F0F" class="headerlink" title="(3) 关系数据库的运算操作 —— 抽取数据的方式"></a>(3) 关系数据库的运算操作 —— 抽取数据的方式</h3><p>1~4为集合运算，5~8为关系运算</p>
+<h4 id="1-__u5E76_28union_29"><a href="#1-__u5E76_28union_29" class="headerlink" title="1. 并(union)"></a>1. 并(union)</h4><p>抽取两张表中所有行的运算</p>
+<h4 id="2-__u5DEE_28difference_29"><a href="#2-__u5DEE_28difference_29" class="headerlink" title="2. 差(difference)"></a>2. 差(difference)</h4><p>抽取两张表的其中一张表独有行的运算，以不同的表为基准会获得不同的运算结果</p>
+<h4 id="3-__u4EA4_28intersection_29"><a href="#3-__u4EA4_28intersection_29" class="headerlink" title="3. 交(intersection)"></a>3. 交(intersection)</h4><p>抽取两张表中都存在的行(记录)</p>
+<h4 id="4-__u7B1B_u5361_u5C14_u79EF_28Cartesian_product_29"><a href="#4-__u7B1B_u5361_u5C14_u79EF_28Cartesian_product_29" class="headerlink" title="4. 笛卡尔积(Cartesian product)"></a>4. 笛卡尔积(Cartesian product)</h4><p>将两张表中的所有行进行排列组合</p>
+<p>表一 &amp; 表二</p>
+<table>
+<thead>
+<tr>
+<th>商品编码</th>
+<th>商品名称</th>
+<th>单价</th>
+<th>←表一 &amp; 表二→</th>
+<th>出口国编号</th>
+<th>出口国名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>香瓜</td>
+<td>800G</td>
+<td></td>
+<td>12</td>
+<td>美国</td>
+</tr>
+<tr>
+<td>102</td>
+<td>草莓</td>
+<td>123G</td>
+<td></td>
+<td>23</td>
+<td>阿富汗</td>
+</tr>
+<tr>
+<td>103</td>
+<td>苹果</td>
+<td>545G</td>
+<td></td>
+<td>25</td>
+<td>巴基斯坦</td>
+</tr>
+</tbody>
+</table>
+<p>笛卡尔积后，表一的每一行记录会与表二的每一行记录进行组合，形成3*3=9行的新表</p>
+<h4 id="5-__u6295_u5F71_28projection_29"><a href="#5-__u6295_u5F71_28projection_29" class="headerlink" title="5. 投影(projection)"></a>5. 投影(projection)</h4><p>抽取一张表中的某一列，如抽取上表一种的商品名称列</p>
+<h4 id="6-__u9009_u62E9_28selection_29"><a href="#6-__u9009_u62E9_28selection_29" class="headerlink" title="6. 选择(selection)"></a>6. 选择(selection)</h4><p>抽取表中的某一行</p>
+<h4 id="7-__u8FDE_u63A5_28join_29"><a href="#7-__u8FDE_u63A5_28join_29" class="headerlink" title="7. 连接(join)"></a>7. 连接(join)</h4><p>商品表 &amp; 销售表</p>
+<table>
+<thead>
+<tr>
+<th>商品编码</th>
+<th>商品名称</th>
+<th>单价</th>
+<th>←商品表 &amp; 销售表→</th>
+<th>日期</th>
+<th>商品编码</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>香瓜</td>
+<td>800G</td>
+<td></td>
+<td>11/1</td>
+<td>102</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>102</td>
+<td>草莓</td>
+<td>150G</td>
+<td></td>
+<td>11/1</td>
+<td>101</td>
+<td>300</td>
+</tr>
+<tr>
+<td>103</td>
+<td>苹果</td>
+<td>120G</td>
+<td></td>
+<td>11/5</td>
+<td>103</td>
+<td>1700</td>
+</tr>
+<tr>
+<td>104</td>
+<td>柠檬</td>
+<td>120G</td>
+<td></td>
+<td>11/8</td>
+<td>101</td>
+<td>500</td>
+</tr>
+</tbody>
+</table>
+<p>两张表都有共同的字段 <strong>商品编码</strong>，但销售表并没有 <strong>商品名称</strong> 字段</p>
+<p><em>销售表</em> 可以通过参考 <em>商品表</em> 中作为主键的 <strong>商品编码</strong> 来找到每条记录所对应的商品名称。</p>
+<p>此时，销售表中的商品编码字段就叫做 <strong>外键(foreign key)</strong></p>
+<p>外键参照其他表的主键时，通过连接，可以将两张表粘合成如下新表</p>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>商品编码</th>
+<th>商品名称</th>
+<th>单价</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11/1</td>
+<td>102</td>
+<td>草莓</td>
+<td>150G</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>11/1</td>
+<td>101</td>
+<td>香瓜</td>
+<td>800G</td>
+<td>300</td>
+</tr>
+<tr>
+<td>11/5</td>
+<td>103</td>
+<td>苹果</td>
+<td>120G</td>
+<td>1700</td>
+</tr>
+<tr>
+<td>11/8</td>
+<td>101</td>
+<td>香瓜</td>
+<td>800G</td>
+<td>500</td>
+</tr>
+</tbody>
+</table>
+<h4 id="8-__u9664_28division_29"><a href="#8-__u9664_28division_29" class="headerlink" title="8. 除(division)"></a>8. 除(division)</h4><ol>
+<li>从“被除表格”当中抽取“除表格”中的所有行</li>
+<li>然后再从中去掉“除表格”中所包含的字段</li>
+<li>最后剩下的就是除运算后的结果</li>
+</ol>
+<h2 id="u4E8C_u3001_u8BBE_u8BA1_u6570_u636E_u5E93"><a href="#u4E8C_u3001_u8BBE_u8BA1_u6570_u636E_u5E93" class="headerlink" title="二、设计数据库"></a>二、设计数据库</h2><h3 id="E-R_u6A21_u578B_u5206_u6790"><a href="#E-R_u6A21_u578B_u5206_u6790" class="headerlink" title="E-R模型分析"></a>E-R模型分析</h3><h3 id="u89C4_u8303_u5316"><a href="#u89C4_u8303_u5316" class="headerlink" title="规范化"></a>规范化</h3><p>第一范式：分割非范式的表格，得到第一范式表格？？</p>
+<p>第二范式：主键的值（有可能两个字段组合起来作为主键）可以用来确定其他列的值，用这个原则来分割表格</p>
+<p>第三范式</p>
+<h2 id="u4E09_u3001SQL_u57FA_u672C_u64CD_u4F5C"><a href="#u4E09_u3001SQL_u57FA_u672C_u64CD_u4F5C" class="headerlink" title="三、SQL基本操作"></a>三、SQL基本操作</h2><h3 id="1-_SELECT"><a href="#1-_SELECT" class="headerlink" title="1. SELECT"></a>1. <code>SELECT</code></h3><p>紧跟着SELECT的是某个字段<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> // *代表所有字段</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">`country`</span> <span class="keyword">FROM</span> <span class="string">`table1`</span> // 把表<span class="number">1</span>中country字段的所有记录调取出来</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AVG</span>(单价) <span class="keyword">FROM</span> <span class="string">`table1`</span> // 使用计算函数作为一个字段，注意“单价”不用加引号！</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u5E38_u89C1_u7684_u8BA1_u7B97_u51FD_u6570"><a href="#u5E38_u89C1_u7684_u8BA1_u7B97_u51FD_u6570" class="headerlink" title="常见的计算函数"></a><strong>常见的计算函数</strong></h4><table>
+<thead>
+<tr>
+<th>计算函数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COUNT(<strong>*</strong>)</td>
+<td>求行数</td>
+</tr>
+<tr>
+<td>COUNT(字段名)</td>
+<td>求非空值行数</td>
+</tr>
+<tr>
+<td>COUNT(DISTINCT 字段名)</td>
+<td>求排除空值和重复行的行数</td>
+</tr>
+<tr>
+<td>SUM(字段名)</td>
+<td>求各行的和 (若内容不为num，则结果为0)</td>
+</tr>
+<tr>
+<td>AVG(字段名)</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>MAX(字段名)</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>MIN(字段名)</td>
+<td>最小值</td>
+</tr>
+</tbody>
+</table>
+<h4 id="WHERE__u6CE8_u610F_u6761_u4EF6_u4E3A_u6570_u5B57_u548C_u5B57_u7B26_u4E32_u65F6_u7684_u5904_u7406"><a href="#WHERE__u6CE8_u610F_u6761_u4EF6_u4E3A_u6570_u5B57_u548C_u5B57_u7B26_u4E32_u65F6_u7684_u5904_u7406" class="headerlink" title="WHERE  注意条件为数字和字符串时的处理"></a><code>WHERE</code>  注意条件为数字和字符串时的处理</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="string">`name`</span> = <span class="string">'苹果'</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="string">`price`</span> &lt; <span class="number">200</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="string">`price`</span> &lt; &gt; <span class="number">200</span>    // 价格不等于<span class="number">200</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="string">`price`</span> = <span class="number">200</span>  // 同上</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="string">`price`</span> <span class="keyword">BETWEEN</span> <span class="number">150</span> <span class="keyword">AND</span> <span class="number">200</span> // 设范围</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="string">`price`</span> <span class="keyword">IS</span> <span class="literal">NULL</span> // 检索空值</span></span><br></pre></td></tr></table></figure>
+<h4 id="LIKE__25__u8868_u793A_u4EFB_u610F_u591A_u4E2A_u5B57_u7B26_uFF1B____u8868_u793A_u5355_u4E2A_u5B57_u7B26"><a href="#LIKE__25__u8868_u793A_u4EFB_u610F_u591A_u4E2A_u5B57_u7B26_uFF1B____u8868_u793A_u5355_u4E2A_u5B57_u7B26" class="headerlink" title="LIKE % 表示任意多个字符； _ 表示单个字符"></a><code>LIKE</code> <strong>%</strong> 表示任意多个字符； <strong>_</strong> 表示单个字符</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="string">`name`</span> <span class="keyword">LIKE</span> <span class="string">'_果'</span></span><br><span class="line"><span class="keyword">OR</span> <span class="string">`name`</span> <span class="keyword">LIKE</span> <span class="string">'猕%'</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="ORDER_BY__u8C03_u53D6_u51FA_u6765_u7684_u7ED3_u679C_u6309_u5347_u5E8F_u6392_u5217"><a href="#ORDER_BY__u8C03_u53D6_u51FA_u6765_u7684_u7ED3_u679C_u6309_u5347_u5E8F_u6392_u5217" class="headerlink" title="ORDER BY 调取出来的结果按升序排列"></a><code>ORDER BY</code> 调取出来的结果按升序排列</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">WHERE</span> <span class="string">`name`</span> <span class="keyword">LIKE</span> <span class="string">'%果'</span> <span class="keyword">OR</span> <span class="string">`name`</span> <span class="keyword">LIKE</span> <span class="string">'%莓'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="string">`price`</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="GROUP_BY"><a href="#GROUP_BY" class="headerlink" title="GROUP BY"></a><code>GROUP BY</code></h4><p>将数据分组化，可以求出每一组的统计值</p>
+<p><code>HAVING</code> 对分组后求得的统计值进行进一步条件设定(注意不是使用<code>WHERE</code>)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 可以求出每个地域的平均单价，如南部 北部 中部</span><br><span class="line"><span class="operator"><span class="keyword">SELECT</span> <span class="string">`地域`</span>, <span class="keyword">AVG</span>(单价) <span class="keyword">FROM</span> <span class="string">`table1`</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="string">`地域`</span></span><br><span class="line"></span><br><span class="line">// 若不加<span class="keyword">GROUP</span> <span class="keyword">BY</span> 则只会出现一条记录，均价是所有地域的均价</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">`地域`</span>, <span class="keyword">AVG</span>(单价) <span class="keyword">FROM</span> <span class="string">`table1`</span></span><br><span class="line"></span><br><span class="line">// 只抽取出平均单价在<span class="number">200</span>以上的地域</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">`地域`</span>, <span class="keyword">AVG</span>(单价) <span class="keyword">FROM</span> <span class="string">`table1`</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="string">`地域`</span></span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">AVG</span>(单价) &gt;= <span class="number">200</span></span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u5B50_u67E5_u8BE2"><a href="#u5B50_u67E5_u8BE2" class="headerlink" title="子查询"></a>子查询</h4><p>例子：检索销售数量在1000以上的商品的名称<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`商品表`</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="string">`商品编码`</span> <span class="keyword">IN</span></span><br><span class="line">(<span class="keyword">SELECT</span> <span class="string">`商品编码`</span> <span class="keyword">FROM</span> <span class="string">`销售明细表`</span> <span class="keyword">WHERE</span> <span class="string">`数量`</span> &gt; <span class="number">1000</span>)</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u76F8_u5173_u5B50_u67E5_u8BE2"><a href="#u76F8_u5173_u5B50_u67E5_u8BE2" class="headerlink" title="相关子查询"></a>相关子查询</h4><h3 id="2-_INSERT_INTO"><a href="#2-_INSERT_INTO" class="headerlink" title="2. INSERT INTO"></a>2. <code>INSERT INTO</code></h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`商品表`</span> (商品编码, 商品名称, 单价)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="number">202</span>， <span class="string">'枇杷'</span>, <span class="number">900</span>)</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-_UPDATE"><a href="#3-_UPDATE" class="headerlink" title="3. UPDATE"></a>3. <code>UPDATE</code></h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">UPDATE</span> <span class="string">`商品表`</span></span><br><span class="line"><span class="keyword">SET</span> <span class="string">`商品名称`</span> = <span class="string">'甜瓜'</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="string">`商品名称`</span> = <span class="string">'西瓜'</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="4-_DELETE_FROM"><a href="#4-_DELETE_FROM" class="headerlink" title="4. DELETE FROM"></a>4. <code>DELETE FROM</code></h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="string">`商品表`</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="string">`商品名称`</span> = <span class="string">'苹果'</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="5-_CREATE_TABLE"><a href="#5-_CREATE_TABLE" class="headerlink" title="5. CREATE TABLE"></a>5. <code>CREATE TABLE</code></h3><h2 id="u56DB_u3001_u6570_u636E_u5E93_u5E94_u7528"><a href="#u56DB_u3001_u6570_u636E_u5E93_u5E94_u7528" class="headerlink" title="四、数据库应用"></a>四、数据库应用</h2><h3 id="1-__u4E8B_u52A1_28transaction_29"><a href="#1-__u4E8B_u52A1_28transaction_29" class="headerlink" title="1. 事务(transaction)"></a>1. 事务(transaction)</h3><p>用户的一个连贯操作被称之为数据库事务。</p>
+<h4 id="u6570_u636E_u5E93_u4E8B_u52A1ACID_u5C5E_u6027"><a href="#u6570_u636E_u5E93_u4E8B_u52A1ACID_u5C5E_u6027" class="headerlink" title="数据库事务ACID属性"></a>数据库事务ACID属性</h4><table>
+<thead>
+<tr>
+<th>性质</th>
+<th>内容</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A(Atomicity)</td>
+<td>原子性</td>
+<td>数据库事务必须结束于 <strong>提交(commit)或回滚(rollback)</strong> 中的任意一个任务</td>
+</tr>
+<tr>
+<td>C(Consistency)</td>
+<td>一致性</td>
+<td>使数据不发生矛盾，事务执行前数据库不存在矛盾，执行后也不能出现矛盾</td>
+</tr>
+<tr>
+<td>I(Isolation)</td>
+<td>隔离性</td>
+<td>两个事务的执行时互不干扰，一个事务不可能看到其他事务运行时，中间某一时刻的数据</td>
+</tr>
+<tr>
+<td>D(Durability)</td>
+<td>持久性</td>
+<td>在事务完成后，该事务对数据库所做的更改便持久的保存在数据库中，并不会被回滚</td>
+</tr>
+</tbody>
+</table>
+<h4 id="u53EF_u5E8F_u5217_u5316"><a href="#u53EF_u5E8F_u5217_u5316" class="headerlink" title="可序列化"></a>可序列化</h4><p>即便是多个事务并行处理也和逐个处理得到的结果一样时，逐个安排称之为可序列化。</p>
+<p>并行执行控制：</p>
+<ul>
+<li>读取数据-共享锁(其他用户只能读取，不能写入)；</li>
+<li>写入数据-独占锁(其他用户读取写入都不允许)</li>
+</ul>
+<h3 id="2-__u64CD_u4F5C_u6743_u9650_u7684_u8D4B_u4E88_u4E0E_u6536_u56DE"><a href="#2-__u64CD_u4F5C_u6743_u9650_u7684_u8D4B_u4E88_u4E0E_u6536_u56DE" class="headerlink" title="2. 操作权限的赋予与收回"></a>2. 操作权限的赋予与收回</h3><h4 id="GRANT__26amp_3B_REVOKE"><a href="#GRANT__26amp_3B_REVOKE" class="headerlink" title="GRANT &amp; REVOKE"></a><code>GRANT</code> &amp; <code>REVOKE</code></h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span>, <span class="keyword">UPDATE</span>, <span class="keyword">INSERT</span>, <span class="keyword">DELETE</span> <span class="keyword">ON</span> 表名 <span class="keyword">TO</span> 用户</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">ON</span> 表名 <span class="keyword">TO</span> 用户 // 所有权限</span><br><span class="line"><span class="keyword">REVOKE</span> <span class="keyword">DELETE</span> <span class="keyword">ON</span> 表名 <span class="keyword">TO</span> 用户X // 收回权限</span><br><span class="line"></span><br><span class="line">// 能够赋予其他用户权限</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span>, <span class="keyword">UPDATE</span> <span class="keyword">ON</span> 表名 <span class="keyword">TO</span> 用户 <span class="keyword">WITH</span> <span class="keyword">GRANT</span> <span class="keyword">OPTION</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="3-__u4F7F_u7528_u7D22_u5F15_u8FDB_u884C_u5FEB_u901F_u68C0_u7D22"><a href="#3-__u4F7F_u7528_u7D22_u5F15_u8FDB_u884C_u5FEB_u901F_u68C0_u7D22" class="headerlink" title="3. 使用索引进行快速检索"></a>3. 使用索引进行快速检索</h3><p>在从大量的数据中选择其中一部分数据的情况下，使用索引可以进行快速检索</p>
+</div><div class="update-time">更新于：2016年01月10日</div></article></div><div class="side-bar"><div class="widget"><h3 class="widget-title">分类</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/">基础</a></li></ul></div><div class="widget"><h3 class="widget-title">标签</h3><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动端/">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul></div></div></section><footer><div class="paginator"><a href="/2015/09/07/计算机网络基础—未完待续/" class="prev">上一篇</a><a href="/2015/07/12/javascript/继承/" class="next">下一篇</a></div><div class="copyright"><p>© 2015-2016<span>zhangfengqi.xyz</span></p><span class="theme">Theme based on <a href="https://github.com/pinggod/hexo-theme-apollo" class="theme-url">appolo</a></span><span class="hexo">Powered by <a href="https://hexo.io/">Hexo</a></span></div></footer><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

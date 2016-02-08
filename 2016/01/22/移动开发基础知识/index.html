@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 移动web开发基础知识 · 返屋企的技术宅</title><meta name="description" content="基本术语
+设备像素(物理像素)：显示屏幕的的最小物理单位，每个dp包含自己的颜色、亮度
+
+CSS像素：浏览器使用的抽象单位，如整个layout宽度980px
+
+通过放大，一个dp可能连一个CSS像素都容纳不下，反之亦然。
+
+
+设备独立像素(density-independent pixel)：也叫密度无关像素，可以认为是计算机坐标系统中得一个点，这个点代表一个可以由程序使用的虚拟像素(比如: css像素)，然后由相关系统转换为物理像素。
+
+PPI：所表示的是每英寸所拥有的像素（pixel）数目，数值越高，即代表显示屏能够以越高的密度显示图像。这里的像素，指的是device pixels
+
+
+&lt;a href=&quot;#u5A92_u4F53_u67E5_u8BE2&quot; class=&quot;headerlink&quot; "><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header style="background-image:url(/header-bg.jpg)"><a href="/" class="logo-link"><img src="/avatar.jpeg"></a><p class="info">zhangfengqi</p><p class="profession"><span>tobe 靠谱的 Front-End Developer</span></p><p class="motto">stay curious · stay hungry</p><nav><ul id="navigation"><li><a href="/archives">归档</a></li><li><a href="/about">关于我</a></li></ul></nav><ul class="sn sn-list iconfont"><li class="sn-list-item"><a href="http://weibo.com/jaredzfq" target="_blank" class="sn-list-link icon-weibo"></a></li><li class="sn-list-item"><a href="https://github.com/zfengqi" target="_blank" class="sn-list-link icon-github"></a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">移动web开发基础知识</h1><div class="post-meta"><div class="post-time">2016年01月22日</div></div><div class="post-content"><h2 id="u57FA_u672C_u672F_u8BED"><a href="#u57FA_u672C_u672F_u8BED" class="headerlink" title="基本术语"></a>基本术语</h2><ol>
+<li><p>设备像素(物理像素)：显示屏幕的的最小物理单位，每个dp包含自己的颜色、亮度</p>
+</li>
+<li><p>CSS像素：浏览器使用的抽象单位，如整个layout宽度980px</p>
+<blockquote>
+<p>通过放大，一个dp可能连一个CSS像素都容纳不下，反之亦然。</p>
+</blockquote>
+</li>
+<li><p>设备独立像素(density-independent pixel)：也叫密度无关像素，可以认为是计算机坐标系统中得一个点，这个点代表一个可以由程序使用的虚拟像素(比如: css像素)，然后由相关系统转换为物理像素。</p>
+</li>
+<li><p>PPI：所表示的是每英寸所拥有的像素（pixel）数目，数值越高，即代表显示屏能够以越高的密度显示图像。这里的像素，指的是device pixels</p>
+</li>
+</ol>
+<h2 id="u5A92_u4F53_u67E5_u8BE2"><a href="#u5A92_u4F53_u67E5_u8BE2" class="headerlink" title="媒体查询"></a>媒体查询</h2><ol>
+<li><code>device-width</code>是设备像素<br>2.</li>
+</ol>
+<p><img src="/images/ios_android_dpr.jpg" alt="ios和安卓的ppi与dpr对应关系"></p>
+<p><a href="http://www.tuquu.com/Tutorial/wd2953.html" target="_blank" rel="external">http://www.tuquu.com/Tutorial/wd2953.html</a></p>
+<p>几个问题</p>
+<ol>
+<li>viewport <a href="http://www.cnblogs.com/2050/p/3877280.html" target="_blank" rel="external">http://www.cnblogs.com/2050/p/3877280.html</a></li>
+<li>动态设置rem的策略是怎样的？看m.lianjia.com代码<br>2.</li>
+</ol>
+<p>查各种设备的ideal viewport尺寸<br><a href="http://viewportsizes.com/" target="_blank" rel="external">http://viewportsizes.com/</a></p>
+</div><div class="update-time">更新于：2016年01月24日</div></article></div><div class="side-bar"><div class="widget"><h3 class="widget-title">分类</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/">基础</a></li></ul></div><div class="widget"><h3 class="widget-title">标签</h3><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动端/">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul></div></div></section><footer><div class="paginator"><a href="/2016/02/07/test/" class="prev">上一篇</a><a href="/2016/01/12/git command/" class="next">下一篇</a></div><div class="copyright"><p>© 2015-2016<span>zhangfengqi.xyz</span></p><span class="theme">Theme based on <a href="https://github.com/pinggod/hexo-theme-apollo" class="theme-url">appolo</a></span><span class="hexo">Powered by <a href="https://hexo.io/">Hexo</a></span></div></footer><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

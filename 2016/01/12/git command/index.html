@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 《Pro Git》 读书笔记1 · 返屋企的技术宅</title><meta name="description" content="git config1.config file 有以下几种1Config file location&amp;#10;    --global              use global config file&amp;#10;    --system              use system config file&amp;#10;    --local               use repos"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header style="background-image:url(/header-bg.jpg)"><a href="/" class="logo-link"><img src="/avatar.jpeg"></a><p class="info">zhangfengqi</p><p class="profession"><span>tobe 靠谱的 Front-End Developer</span></p><p class="motto">stay curious · stay hungry</p><nav><ul id="navigation"><li><a href="/archives">归档</a></li><li><a href="/about">关于我</a></li></ul></nav><ul class="sn sn-list iconfont"><li class="sn-list-item"><a href="http://weibo.com/jaredzfq" target="_blank" class="sn-list-link icon-weibo"></a></li><li class="sn-list-item"><a href="https://github.com/zfengqi" target="_blank" class="sn-list-link icon-github"></a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">《Pro Git》 读书笔记1</h1><div class="post-meta"><div class="post-time">2016年01月12日</div></div><div class="post-content"><h2 id="git_config"><a href="#git_config" class="headerlink" title="git config"></a>git config</h2><h4 id="1-config_file__u6709_u4EE5_u4E0B_u51E0_u79CD"><a href="#1-config_file__u6709_u4EE5_u4E0B_u51E0_u79CD" class="headerlink" title="1.config file 有以下几种"></a>1.config file 有以下几种</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Config file location&#10;    --global              use global config file&#10;    --system              use system config file&#10;    --local               use repository config file&#10;    -f, --file &#60;file&#62;     use given config file&#10;    --blob &#60;blob-id&#62;      read config from given blob object</span><br></pre></td></tr></table></figure>
+<h4 id="2-_u6709_u4EE5_u4E0B_u51E0_u79CD_u884C_u4E3A_uFF08action_uFF09_u6307_u4EE4_uFF0C_u914D_u5408Config_file_location_uFF0C_u7528_u6765_u589E_u5220_u6539_u67E5_u4E0D_u540C_u7684_u914D_u7F6E_u6587_u4EF6"><a href="#2-_u6709_u4EE5_u4E0B_u51E0_u79CD_u884C_u4E3A_uFF08action_uFF09_u6307_u4EE4_uFF0C_u914D_u5408Config_file_location_uFF0C_u7528_u6765_u589E_u5220_u6539_u67E5_u4E0D_u540C_u7684_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="2.有以下几种行为（action）指令，配合Config file location，用来增删改查不同的配置文件"></a>2.有以下几种行为（action）指令，配合<code>Config file location</code>，用来增删改查不同的配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Action&#10;    --get                 get value: name [value-regex]&#10;    --get-all             get all values: key [value-regex]&#10;    --get-regexp          get values for regexp: name-regex [value-regex]&#10;    --get-urlmatch        get value specific for the URL: section[.var] URL&#10;    --replace-all         replace all matching variables: name value [value_regex]&#10;    --add                 add a new variable: name value&#10;    --unset               remove a variable: name [value-regex]&#10;    --unset-all           remove all matches: name [value-regex]&#10;    --rename-section      rename section: old-name new-name&#10;    --remove-section      remove a section: name&#10;    -l, --list            list all&#10;    -e, --edit            open an editor&#10;    --get-color           find the color configured: slot [default]&#10;    --get-colorbool       find the color setting: slot [stdout-is-tty]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git --global --edit // 打开编辑器修改global配置文件</span><br><span class="line">git --global --list // 列出该配置文件中的所有配置信息</span><br></pre></td></tr></table></figure>
+<h4 id="3-_u8BBE_u7F6Ekey_value_u7684_u65B9_u5F0F_uFF0C-add_u53EF_u4EE5_u7701_u7565_uFF0C_u5982_u679C_u4E0D_u52A0Config_file_location_u914D_u7F6E_u9879_u7684_u8BDD_uFF0C_u9ED8_u8BA4_u662F_u4FDD_u5B58_u5230-local"><a href="#3-_u8BBE_u7F6Ekey_value_u7684_u65B9_u5F0F_uFF0C-add_u53EF_u4EE5_u7701_u7565_uFF0C_u5982_u679C_u4E0D_u52A0Config_file_location_u914D_u7F6E_u9879_u7684_u8BDD_uFF0C_u9ED8_u8BA4_u662F_u4FDD_u5B58_u5230-local" class="headerlink" title="3.设置key value的方式，--add可以省略，如果不加Config file location配置项的话，默认是保存到--local"></a>3.设置key value的方式，<code>--add</code>可以省略，如果不加<code>Config file location</code>配置项的话，默认是保存到<code>--local</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --add user.age <span class="number">25</span></span><br><span class="line">git config user.xxx <span class="string">"hehehe"</span></span><br><span class="line">git config --global user.name <span class="string">"zhangfengqi"</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-_u4E3A_u5E38_u7528_u547D_u4EE4_u8BBE_u7F6E_u522B_u540Dalias"><a href="#4-_u4E3A_u5E38_u7528_u547D_u4EE4_u8BBE_u7F6E_u522B_u540Dalias" class="headerlink" title="4.为常用命令设置别名alias"></a>4.为常用命令设置别名<code>alias</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global alias.co checkout</span><br><span class="line">$ git config --global alias.last <span class="string">'log -1 HEAD'</span></span><br><span class="line"></span><br><span class="line">$ git config --global alias.unstage <span class="string">'reset HEAD --'</span></span><br><span class="line">// 下面两者等同</span><br><span class="line">$ git unstage fileA</span><br><span class="line">$ git reset HEAD -- fileA</span><br></pre></td></tr></table></figure>
+<p>想要执行外部命令，而不是一个Git子命令，需要在命令前面加入<code>!</code>符号。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global alias.visual <span class="string">'!gitk'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="ignore"><a href="#ignore" class="headerlink" title="ignore"></a>ignore</h2><p>忽略某些后缀的文件，只需要修改<code>.gitignore</code>，将其添加进去</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim .gitignore</span><br><span class="line">*.swp</span><br><span class="line">*.a</span><br><span class="line">!lib.a // 忽略所有.a后缀，但是lib.a除外！</span><br></pre></td></tr></table></figure>
+<p>文件 .gitignore 的格式规范如下：</p>
+<ol>
+<li><p>所有空行或者以 ＃ 开头的行都会被 Git 忽略。</p>
+</li>
+<li><p>可以使用标准的 glob 模式匹配。</p>
+</li>
+<li><p>匹配模式可以以（/）开头防止递归。</p>
+</li>
+<li><p>匹配模式可以以（/）结尾指定目录。</p>
+</li>
+<li><p>要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（!）取反。</p>
+</li>
+</ol>
+<p>所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。 星号（<em>) 匹配零个或多个任意字符；[abc] 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；问号（?）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 [0-9] 表示匹配所有 0 到 9 的数字）。 使用两个星号（</em>) 表示匹配任意中间目录，比如a/**/z 可以匹配 a/z, a/b/z 或 a/b/c/z等。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># no .a files</span></span><br><span class="line">*.a</span><br><span class="line"><span class="comment"># but do track lib.a, even though you're ignoring .a files above</span></span><br><span class="line">!lib.a</span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO</span></span><br><span class="line">/TODO</span><br><span class="line"><span class="comment"># ignore all files in the build/ directory</span></span><br><span class="line">build/</span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt</span></span><br><span class="line">doc/*.txt</span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory</span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/github/gitignore" target="_blank" rel="external">A collection of .gitignore templates</a></p>
+<h2 id="level_11_12_git_rm"><a href="#level_11_12_git_rm" class="headerlink" title="level 11 12 git rm"></a>level 11 12 git rm</h2><p><a href="http://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#Removing-Files" target="_blank" rel="external">http://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#Removing-Files</a></p>
+<ol>
+<li><p>将文件从暂存区移除，并且连带从硬盘工作目录中删除</p>
+</li>
+<li><p>如果仅仅用rm把文件从硬盘中删除，则在git中会出现未暂存记录，这时需要再执行<code>git rm xxx</code> 记录这次删除文件的操作，下一次提交时，该文件就不再纳入版本管理了。</p>
+</li>
+<li><p>如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f（译注：即 force 的首字母）。 这是一种安全特性，用于防止误删还没有添加到快照的数据，这样的数据不能被 Git 恢复。</p>
+</li>
+<li><p>只想把文件从暂存区中删除（意味着不再让git跟踪），但不删除保留在硬盘中。<br>使用场景：当你忘记添加 .gitignore 文件，不小心把一个很大的日志文件或一堆 .a 这样的编译生成文件添加到暂存区时，这一做法尤其有用。</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached deleteme.rb // 保存working tree的文件，只从stage中移除，并不再追踪</span><br></pre></td></tr></table></figure>
+<h2 id="level_13_14_git_mv"><a href="#level_13_14_git_mv" class="headerlink" title="level 13 14 git mv"></a>level 13 14 git mv</h2><h4 id="1-__u6539_u540D_git_mv_oldfile-txt_newfile-txt"><a href="#1-__u6539_u540D_git_mv_oldfile-txt_newfile-txt" class="headerlink" title="1. 改名 git mv oldfile.txt newfile.txt"></a>1. 改名 <code>git mv oldfile.txt newfile.txt</code></h4><p>其实，运行 git mv 就相当于运行了下面三条命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv README.md README</span><br><span class="line">$ git rm README.md</span><br><span class="line">$ git add README</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-__u526A_u5207_u6587_u4EF6"><a href="#2-__u526A_u5207_u6587_u4EF6" class="headerlink" title="2. 剪切文件"></a>2. 剪切文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Make a new folder named src, and move all of the .html files into this folder</span><br><span class="line">git mv *.html src/</span><br></pre></td></tr></table></figure>
+<h2 id="level_18_git_push"><a href="#level_18_git_push" class="headerlink" title="level 18 git push"></a>level 18 git push</h2><p><a href="https://git-scm.com/docs/git-push" target="_blank" rel="external">https://git-scm.com/docs/git-push</a></p>
+<ul>
+<li>git push –tags</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// git push origin HEAD</span><br><span class="line">A handy way to push the current branch to the same name on the remote.</span><br></pre></td></tr></table></figure>
+<h2 id="git_commit__u2013amend__u4FEE_u6539_u6700_u540E_u4E00_u6B21_u63D0_u4EA4"><a href="#git_commit__u2013amend__u4FEE_u6539_u6700_u540E_u4E00_u6B21_u63D0_u4EA4" class="headerlink" title="git commit –amend 修改最后一次提交"></a>git commit –amend 修改最后一次提交</h2><h4 id="1-__u4FEE_u6539_u6700_u540E_u4E00_u6B21_u7684_u63D0_u4EA4_u4FE1_u606F"><a href="#1-__u4FEE_u6539_u6700_u540E_u4E00_u6B21_u7684_u63D0_u4EA4_u4FE1_u606F" class="headerlink" title="1. 修改最后一次的提交信息"></a>1. 修改最后一次的提交信息</h4><p>直接输入<code>git commit --amend</code>，会被带入编辑器进行提交信息修改</p>
+<h4 id="2-__u4E00_u6B21_u63D0_u4EA4_u5DF2_u5B8C_u6210_uFF0C_u4F46_u6709_u4E2A_u6587_u4EF6_u5FD8_u63D0_u8FDB_u53BB_u4E86"><a href="#2-__u4E00_u6B21_u63D0_u4EA4_u5DF2_u5B8C_u6210_uFF0C_u4F46_u6709_u4E2A_u6587_u4EF6_u5FD8_u63D0_u8FDB_u53BB_u4E86" class="headerlink" title="2. 一次提交已完成，但有个文件忘提进去了"></a>2. 一次提交已完成，但有个文件忘提进去了</h4><p>通过修改文件然后运行 <code>git add</code> 或 <code>git rm</code> 一个已追踪的文件，随后运行 <code>git commit --amend</code>拿走当前的暂存区域并使其做为新提交的快照。</p>
+<blockquote>
+<p><strong>注意顶</strong><br>因为修正会改变提交的 SHA-1 校验和。 它类似于一个小的变基 - 如果已经推送了最后一次提交就不要修正它。</p>
+</blockquote>
+<h2 id="git_status__5B-s__7C__u2013short_5D"><a href="#git_status__5B-s__7C__u2013short_5D" class="headerlink" title="git status [-s | –short]"></a>git status [-s | –short]</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status <span class="operator">-s</span></span><br><span class="line"> M README</span><br><span class="line">MM Rakefile</span><br><span class="line">A  lib/git.rb</span><br><span class="line">M  lib/simplegit.rb</span><br><span class="line">?? LICENSE.txt</span><br></pre></td></tr></table></figure>
+<p>新添加的未跟踪文件前面有 ?? 标记，新添加到暂存区中的文件前面有 A 标记，修改过的文件前面有 M 标记。 你可能注意到了 M 有两个可以出现的位置，出现在右边的 M 表示该文件被修改了但是还没放入暂存区，出现在靠左边的 M 表示该文件被修改了并放入了暂存区。 例如，上面的状态报告显示： README 文件在工作区被修改了但是还没有将修改后的文件放入暂存区,lib/simplegit.rb 文件被修改了并将修改后的文件放入了暂存区。 而 Rakefile 在工作区被修改并提交到暂存区后又在工作区中被修改了，所以在暂存区和工作区都有该文件被修改了的记录。</p>
+<h2 id="git_diff__26amp_3B_git_difftool"><a href="#git_diff__26amp_3B_git_difftool" class="headerlink" title="git diff &amp; git difftool"></a>git diff &amp; git difftool</h2><ol>
+<li><p>要查看尚未暂存的文件更新了哪些部分，不加参数直接输入 git diff<br>请注意，git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。 所以有时候你一下子暂存了所有更新过的文件后，运行 git diff 后却什么也没有，就是这个原因。</p>
+</li>
+<li><p>若要查看已暂存的将要添加到下次提交里的内容，可以用 git diff –cached 命令。（Git 1.6.1 及更高版本还允许使用 git diff –staged，效果是相同的，但更好记些。）</p>
+</li>
+<li><p>git diff 查看各个区(工作区 暂存区 版本库)之间的差异</p>
+<blockquote>
+<p><code>git diff</code> 比较的是工作区和暂存区的差别<br><code>git diff –cached</code> 比较的是暂存区和版本库的差别<br><code>git diff HEAD</code> 可以查看工作区和版本库的差别<br>每次commit后,<code>git diff –cached</code>没有内容，是因为暂存区的内容已经更新到版本库中，因此暂存区和版本库中的内容无差别</p>
+</blockquote>
+</li>
+<li><p>git diff的插件版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git difftool --tool-help // 看你的系统支持哪些 Git Diff 插件</span><br><span class="line">git config --global diff.tool vimdiff</span><br><span class="line">git difftool --edit vimdiff</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="git_log__u67E5_u770B_u63D0_u4EA4_u5386_u53F2"><a href="#git_log__u67E5_u770B_u63D0_u4EA4_u5386_u53F2" class="headerlink" title="git log 查看提交历史"></a>git log 查看提交历史</h2><h4 id="1-__u9ED8_u8BA4_u60C5_u51B5_uFF08_u4E0D_u52A0_u4EFB_u4F55_u53C2_u6570_uFF09"><a href="#1-__u9ED8_u8BA4_u60C5_u51B5_uFF08_u4E0D_u52A0_u4EFB_u4F55_u53C2_u6570_uFF09" class="headerlink" title="1. 默认情况（不加任何参数）"></a>1. 默认情况（不加任何参数）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">commit a11bef06a3f659402fe7563abf99ad00de2209e6</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Sat Mar <span class="number">15</span> <span class="number">10</span>:<span class="number">31</span>:<span class="number">28</span> <span class="number">2008</span> -<span class="number">0700</span></span><br><span class="line"></span><br><span class="line">    first commit</span><br></pre></td></tr></table></figure>
+<p>按提交时间列出所有的更新，最近的更新排在最上面。加入参数<code>-p</code>可以看到每次提交的内容差异</p>
+<h4 id="2-__u7B80_u5355_u5B9A_u5236_u8F93_u51FA_u5185_u5BB9_-pretty_3Doneline__7C_short__7C_full__7C_fuller"><a href="#2-__u7B80_u5355_u5B9A_u5236_u8F93_u51FA_u5185_u5BB9_-pretty_3Doneline__7C_short__7C_full__7C_fuller" class="headerlink" title="2. 简单定制输出内容 --pretty=oneline | short | full | fuller"></a>2. 简单定制输出内容 <code>--pretty=oneline | short | full | fuller</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --pretty=oneline // 只有commit号和comment</span><br><span class="line"><span class="number">4</span>df268a7256494563ff21feeb245a5fb52e42709 m_school bug fixed1</span><br><span class="line">a1f8f9f33ffa4a39d99a0325e92acd73a48e11fa agent phone</span><br><span class="line"></span><br><span class="line">$ git <span class="built_in">log</span> --pretty=short // 没有提交时间，是merge的提交会有简明提示</span><br><span class="line">commit <span class="number">7</span>e65491f3f742c3dd3befccd01f74d60d1000c19</span><br><span class="line">Author: zuoerdong</span><br><span class="line"></span><br><span class="line">    redian index, brief content trim space and substr to length <span class="number">100</span></span><br><span class="line"></span><br><span class="line">commit de7042ce4004d8207d3aa4f768d076402ccc972c</span><br><span class="line">Merge: <span class="number">4</span>f0513c <span class="number">448</span>fdf7</span><br><span class="line">Author: Wang Chunwei</span><br><span class="line"></span><br><span class="line">git <span class="built_in">log</span> --pretty=full // 作者和提交者都会列出来，还是没有提交时间</span><br><span class="line">commit <span class="number">4</span>df268a7256494563ff21feeb245a5fb52e42709</span><br><span class="line">Author: Zhang Fengqi &lt;zhangfengqi@xxx.com&gt;</span><br><span class="line">Commit: Zhang Fengqi &lt;zhangfengqi@xxx.com&gt;</span><br><span class="line"></span><br><span class="line">    m_school bug fixed1</span><br><span class="line"></span><br><span class="line">$ git <span class="built_in">log</span> --pretty=fuller // 多了时间</span><br><span class="line">commit <span class="number">4</span>df268a7256494563ff21feeb245a5fb52e42709</span><br><span class="line">Author:     Zhang Fengqi &lt;zhangfengqi@xxx.com&gt;</span><br><span class="line">AuthorDate: Fri Jan <span class="number">15</span> <span class="number">18</span>:<span class="number">28</span>:<span class="number">23</span> <span class="number">2016</span> +<span class="number">0800</span></span><br><span class="line">Commit:     Zhang Fengqi &lt;zhangfengqi@xxx.com&gt;</span><br><span class="line">CommitDate: Fri Jan <span class="number">15</span> <span class="number">18</span>:<span class="number">28</span>:<span class="number">23</span> <span class="number">2016</span> +<span class="number">0800</span></span><br><span class="line"></span><br><span class="line">    m_school bug fixed1</span><br></pre></td></tr></table></figure>
+<h4 id="3-__u9AD8_u5EA6_u5B9A_u5236_u8F93_u51FA_u5185_u5BB9_-pretty_3Dformat_3A_26quot_3Bxxx_26quot_3B"><a href="#3-__u9AD8_u5EA6_u5B9A_u5236_u8F93_u51FA_u5185_u5BB9_-pretty_3Dformat_3A_26quot_3Bxxx_26quot_3B" class="headerlink" title="3. 高度定制输出内容 --pretty=format:&quot;xxx&quot;"></a>3. 高度定制输出内容 <code>--pretty=format:&quot;xxx&quot;</code></h4><p><code>alias.hist=log --pretty=format:&quot;%h %ad | %s%d [%an]&quot; --graph --date=short</code></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%h</td>
+<td>commit的短哈希，大写H则为完整哈希</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>tree的短哈希，同上</td>
+</tr>
+<tr>
+<td>%an</td>
+<td>作者（author）名字</td>
+</tr>
+<tr>
+<td>%ae</td>
+<td>anthor email</td>
+</tr>
+<tr>
+<td>%ad</td>
+<td>作者修订日期（可以用 –date= 选项定制格式）</td>
+</tr>
+<tr>
+<td>%ar</td>
+<td>relative date 按多久以前的方式显示</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>提交说明</td>
+</tr>
+</tbody>
+</table>
+<p><code>%ar</code>等同于<code>--date=relative</code>或者<code>--relative-date</code></p>
+<h4 id="4-__u9650_u5B9A_u8F93_u51FA_u957F_u5EA6_u548C_u5185_u5BB9"><a href="#4-__u9650_u5B9A_u8F93_u51FA_u957F_u5EA6_u548C_u5185_u5BB9" class="headerlink" title="4. 限定输出长度和内容"></a>4. 限定输出长度和内容</h4><ul>
+<li>想获取多个限制条件的并集时，需要添加<code>--all-match</code>选项，否则满足任意一个条件的提交都会被匹配出来</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-(n)</code></td>
+<td>仅显示最近的n条提交</td>
+</tr>
+<tr>
+<td><code>--since</code> 或 <code>--after</code></td>
+<td>仅显示指定时间之后的提交</td>
+<td><code>--since=&quot;2016-01-01&quot; or &quot;1 month 1 day 9 hours ago&quot;</code></td>
+</tr>
+<tr>
+<td><code>--until</code> 或 <code>--before</code></td>
+<td>仅显示指定时间之前的提交</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--anthor</code></td>
+<td>指定作者</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--commiter</code></td>
+<td>指定提交者</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--grep</code></td>
+<td>匹配提交说明中的关键字</td>
+<td><code>--grep=gulp</code> <code>--grep=&quot;initial commit&quot;</code></td>
+</tr>
+<tr>
+<td><code>--S</code></td>
+<td>仅显示添加或移除了某个关键字的提交</td>
+<td><code>--Sfunction_named</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="5-__u5176_u4ED6_u9009_u9879"><a href="#5-__u5176_u4ED6_u9009_u9879" class="headerlink" title="5. 其他选项"></a>5. 其他选项</h4><ul>
+<li><code>--decorate</code><br>命令查看各个分支当前所指的commit对象</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --decorate</span><br><span class="line"><span class="number">4</span>df268a (HEAD, origin/master, origin/HEAD, master) m_school bug fixed1</span><br><span class="line">a1f8f9f agent phone</span><br></pre></td></tr></table></figure>
+<h2 id="u8FDC_u7A0B_u4ED3_u5E93"><a href="#u8FDC_u7A0B_u4ED3_u5E93" class="headerlink" title="远程仓库"></a>远程仓库</h2><h2 id="git_tag"><a href="#git_tag" class="headerlink" title="git tag"></a>git tag</h2><p>两种类型的标签：轻量标签（lightweight）与附注标签（annotated）</p>
+<h4 id="1-__u9644_u6CE8_u6807_u7B7E"><a href="#1-__u9644_u6CE8_u6807_u7B7E" class="headerlink" title="1. 附注标签"></a>1. 附注标签</h4><p>附注标签是存储在 Git 数据库中的一个完整对象。它们是可以被校验的；其中包含打标签者的名字、电子邮件地址、日期时间；通常建议创建附注标签。</p>
+<p>使用<code>-a</code>,a for annotated.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ git tag <span class="operator">-a</span> v1.<span class="number">4</span> -m <span class="string">'my version 1.4'</span></span><br><span class="line">$ git tag</span><br><span class="line">v0.<span class="number">1</span></span><br><span class="line">v1.<span class="number">3</span></span><br><span class="line">v1.<span class="number">4</span></span><br><span class="line"></span><br><span class="line">// 查看标签的详细信息</span><br><span class="line">$ git show v1.<span class="number">4</span></span><br><span class="line">tag v1.<span class="number">4</span></span><br><span class="line">Tagger: Ben Straub &lt;ben@straub.cc&gt;</span><br><span class="line">Date:   Sat May <span class="number">3</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">12</span> <span class="number">2014</span> -<span class="number">0700</span></span><br><span class="line"></span><br><span class="line">my version <span class="number">1.4</span></span><br><span class="line"></span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar <span class="number">17</span> <span class="number">21</span>:<span class="number">52</span>:<span class="number">11</span> <span class="number">2008</span> -<span class="number">0700</span></span><br><span class="line"></span><br><span class="line">    changed the version number</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-_u8F7B_u91CF_u6807_u7B7E"><a href="#2-_u8F7B_u91CF_u6807_u7B7E" class="headerlink" title="2.轻量标签"></a>2.轻量标签</h4><p>不保存任何相关信息，只是一个特定提交的引用，轻量标签本质上是将提交校验和存储到一个文件中，然后做个map对应。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 不需要任何其他参数，也不需要写comment</span><br><span class="line">$ git tag v1.<span class="number">4</span>-lw</span><br><span class="line">$ git tag</span><br><span class="line">v0.<span class="number">1</span></span><br><span class="line">v1.<span class="number">3</span></span><br><span class="line">v1.<span class="number">4</span></span><br><span class="line">v1.<span class="number">4</span>-lw</span><br><span class="line">v1.<span class="number">5</span></span><br><span class="line"></span><br><span class="line">// 假设v1.<span class="number">4</span>的commit号为ca82a6，下面两者等同，不会有额外的标签信息</span><br><span class="line">$ git show v1.<span class="number">4</span></span><br><span class="line">$ git show ca82a6</span><br></pre></td></tr></table></figure>
+<h4 id="3-_u5BF9_u5DF2_u6709_u7684_u63D0_u4EA4_u6253tag"><a href="#3-_u5BF9_u5DF2_u6709_u7684_u63D0_u4EA4_u6253tag" class="headerlink" title="3.对已有的提交打tag"></a>3.对已有的提交打tag</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag <span class="operator">-a</span> v1.<span class="number">2</span> <span class="number">9</span>fceb02</span><br></pre></td></tr></table></figure>
+<h4 id="4-_u63A8_u9001_u6807_u7B7E_u5230_u8FDC_u7A0B"><a href="#4-_u63A8_u9001_u6807_u7B7E_u5230_u8FDC_u7A0B" class="headerlink" title="4.推送标签到远程"></a>4.推送标签到远程</h4><p>默认情况下，git push 命令并不会传送标签到远程仓库服务器上。在创建完标签后你必须显式地推送标签到共享服务器上。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin v1.<span class="number">5</span></span><br><span class="line">$ git push origin --tags // 推送所有不在远程仓库上的标签</span><br></pre></td></tr></table></figure></p>
+<h4 id="5-_u5728_u67D0_u4E2Atag_u57FA_u7840_u4E0A_u5EFA_u5206_u652F"><a href="#5-_u5728_u67D0_u4E2Atag_u57FA_u7840_u4E0A_u5EFA_u5206_u652F" class="headerlink" title="5.在某个tag基础上建分支"></a>5.在某个tag基础上建分支</h4><p><code>git checkout -b [branchname] [tagname]</code></p>
+<h2 id="git_reset__26amp_3B_git_checkout"><a href="#git_reset__26amp_3B_git_checkout" class="headerlink" title="git reset &amp; git checkout"></a>git reset &amp; git checkout</h2><blockquote>
+<p><a href="https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86" target="_blank" rel="external">https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86</a></p>
+</blockquote>
+<h4 id="1-__u4E09_u4E2A_u533A"><a href="#1-__u4E09_u4E2A_u533A" class="headerlink" title="1. 三个区"></a>1. 三个区</h4><table>
+<thead>
+<tr>
+<th>树</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>指向上一次提交的快照，下一次提交的父结点</td>
+</tr>
+<tr>
+<td>Index(暂存区)</td>
+<td>预期的下一次提交的快照，add操作之后所放置的区域，当你运行<code>git commit</code>时 Git 看起来的样子</td>
+</tr>
+<tr>
+<td>working Directory</td>
+<td>硬盘本地工作目录，沙盒</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>git init</code>执行之后只有工作目录有文件1.js(v1)</li>
+<li><code>git add 1.js</code>后现在暂存区和工作目录有1.js(v1)，HEAD里没有</li>
+<li><code>git commit</code>之后，现在三个区中的文件才是一致的，1.js(v1)</li>
+<li>只有三个区中的文件集合都一致的时候，<code>git status</code>才会显示为空</li>
+</ul>
+<h4 id="2-_git_reset__u4E09_u6B65_u539F_u7406"><a href="#2-_git_reset__u4E09_u6B65_u539F_u7406" class="headerlink" title="2. git reset 三步原理"></a>2. <code>git reset</code> 三步原理</h4><ol>
+<li>dfd</li>
+<li>dsf</li>
+</ol>
+<h2 id="Git_u5206_u652F"><a href="#Git_u5206_u652F" class="headerlink" title="Git分支"></a>Git分支</h2><h4 id="1-__u5206_u652F_u7B80_u4ECB"><a href="#1-__u5206_u652F_u7B80_u4ECB" class="headerlink" title="1. 分支简介"></a>1. 分支简介</h4><ul>
+<li>Git的分支，其实本质上仅仅是指向commit对象的可变指针</li>
+<li>git创建分支，其实是为你创建了一个可以移动的新的指针</li>
+<li>通过<code>HEAD</code>这个特殊指针，GIT获知当前在哪个分支上。<code>HEAD</code>可被看作为当前分支的别名。可以简单认为<code>checkout</code>到哪儿，<code>HEAD</code>移动到哪儿</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch dev&#10;  HEAD -&#62; master&#10;             &#8595;&#10;98ca9 &#60;--- f30ab&#10;             &#8593;&#10;            dev&#10;&#10;$ git checkout -b dev // &#24403;&#26032;&#24314;&#24182;&#20999;&#25442;&#21040;dev&#20998;&#25903;&#26102;&#65292;HEAD&#25165;&#20250;&#31227;&#21160;&#10;           master&#10;             &#8595;&#10;98ca9 &#60;--- f30ab&#10;             &#8593;&#10;            dev &#60;- HEAD</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果分别在master和dev上进行commit，则历史记录就会开始分叉</li>
+<li>由于 Git 的分支实质上仅是包含所指对象校验和（长度为 40 的 SHA-1 值字符串）的文件，所以它的创建和销毁都异常高效。 创建一个新分支就像是往一个文件中写入 41 个字节（40 个字符和 1 个换行符）</li>
+</ul>
+</div><div class="update-time">更新于：2016年01月21日</div></article></div><div class="side-bar"><div class="widget"><h3 class="widget-title">分类</h3><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/基础/">基础</a></li></ul></div><div class="widget"><h3 class="widget-title">标签</h3><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动端/">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul></div></div></section><footer><div class="paginator"><a href="/2016/01/22/移动开发基础知识/" class="prev">上一篇</a><a href="/2015/11/09/git学习总结/" class="next">下一篇</a></div><div class="copyright"><p>© 2015-2016<span>zhangfengqi.xyz</span></p><span class="theme">Theme based on <a href="https://github.com/pinggod/hexo-theme-apollo" class="theme-url">appolo</a></span><span class="hexo">Powered by <a href="https://hexo.io/">Hexo</a></span></div></footer><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
