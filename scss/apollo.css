@@ -410,9 +410,6 @@ section.container:after {
 ul {
   padding: 0; }
 
-li {
-  list-style: none; }
-
 ul.sn,
 ul.post-list {
   margin: 0;
@@ -585,10 +582,6 @@ header {
       top: -4px;
       font-size: 1.2em;
       font-weight: bold; }
-  .post-content h2, .post-content h3 {
-    font-size: 22px; }
-  .post-content h4, .post-content h5, .post-content h6 {
-    font-size: 18px; }
   .post-content a {
     color: #42b983; }
   .post-content blockquote {
@@ -837,7 +830,8 @@ footer .copyright {
   .post-list,
   .post {
     float: none;
-    margin: 0 15%; }
+    margin: 0 5%;
+    width: 90%; }
   header {
     padding: 20px 5%; }
     header a.logo-link,
@@ -850,7 +844,6 @@ footer .copyright {
   .container {
     width: 100%; }
   .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
-    max-width: 300px;
     left: 15px; }
   .ds-thread,
   #disqus_thread {
