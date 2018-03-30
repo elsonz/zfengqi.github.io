@@ -1,0 +1,250 @@
+---
+title: git 学习总结
+date: 2015-11-09
+updated: 2016-01-12
+tags: ["git", "工具"]
+---
+为了在工作中使用git时不捅娄子，这里主要基于廖雪峰老师的git教程所做的学习总结，在实际中遇到的问题也会不断更新进来。
+<!-- more -->
+[http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
+## 提交到本地版本库
+`git add` & `git commit`
+
+git当中的`add`和`commit`与svn有所区别原因：分布式vs集中式
+
+由于git的分布式决定了我们每个人的电脑上都是一个完整的版本库(repository)，因此`add`和`commit`都是相对于自己本地的版本库而言的。
+
+版本库里存了很多东西，其中最重要的就是：
+1. 称为stage（或者叫index）的**暂存区**；
+2. 还有Git为我们自动创建的**第一个分支**，即主干`master`，以及指向master的一个指针叫`HEAD`。
+
+#### 关于`HEAD`
+`HEAD`意思是当前分支的最新版本，但其实它直接指向的是当前分支。
+
+如果只有一个主分支，即主干`master`，那`HEAD`指向的是`master`，而`master`再指向于最新版本
+
+![HEAD与master](http://www.liaoxuefeng.com/files/attachments/0013849087937492135fbf4bbd24dfcbc18349a8a59d36d000/0)
+
+```bash
+$ git add a.txt // 添加某文件到本地版本库的暂存区
+$ git add b.txt
+$ git add .     // 添加所有non-version文件到本地库暂存区
+$ git commit -m "add 2 files" // 提交暂存区内所有文件到分支(如master)
+```
+添加文件到Git仓库，分两步：
+
+- 第一步，使用命令`git add <file>` —— 暂存区
+
+    **注意，可反复多次使用，添加多个文件；**
+- 第二步，使用命令`git commit` 完成。—— 分支
+
+    **注意，commit之后，暂存区就会被清空**
+
+ps. 这时只是添加到本地库，而不是远程的版本库github
+
+## 远程库 github
+#### 先有本地库，后有远程库的时候，如何关联远程库
+1. github上新建一个repository
+2. `git remote add origin git@server-name:path/repo-name.git`
+
+关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
+
+此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+
+#### 克隆远程库
+```bash
+$ git clone git@github.com:michaelliao/learngit.git
+...
+$ git branch
+*master
+```
+当使用clone命令克隆一个远程库时，默认情况下，只能看到本地的master分支。
+
+如果想要获取dev分支，在上面开发，怎么办？
+```bash
+// 必须创建远程origin的dev分支到本地
+$ git checkout -b dev origin/dev
+```
+
+#### 查看远程库信息
+```bash
+$ git remote
+origin
+
+$ git remote -v // 详细信息
+octocat https://github.com/octocat/Spoon-Knife.git (fetch)
+octocat https://github.com/octocat/Spoon-Knife.git (push)
+origin  https://github.com/zfengqi/Spoon-Knife.git (fetch)
+origin  https://github.com/zfengqi/Spoon-Knife.git (push)
+// 上面显示了可以抓取和推送的origin的地址。如果没有推送权限，就看不到push的地址。
+```
+
+#### 推送分支
+```bash
+$ git push origin master // 指定本地分支，然后就会推送到对应的分支去
+$ git push origin dev
+```
+
+#### 抓取分支
+因为远程分支版本比你的本地的要新，需要先用`git pull`试图合并，即update代码
+
+如果`git pull`合并有冲突，则需要解决冲突，并在本地提交；
+
+如果git pull提示 **no tracking information**，则说明本地分支和远程分支的链接关系没有创建
+
+```bash
+$ git branch --set-upstream <branch-name> <origin/branch-name>
+```
+
+## 版本回滚
+1. `HEAD`指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令
+
+``` bash
+$ git reset --hard commit_id
+$ git reset --hard HEAD^ // 回滚上个版本
+$ git reset --hard HEAD^^ // 回滚到上两个版本
+$ git reset --hard HEAD~100 // 回滚到前100个版本
+```
+
+2. 穿梭前，用git log可以查看提交历史，主要找版本号，以便确定要回滚到哪个版本。
+
+```bash
+    $ git log
+    commit 5a396f23af1729fa0c0049c58d42fe0d71541665
+    Author: kei <zfengqi90@gmail.com>
+    Date:   Fri Jul 10 15:20:21 2015 +0800
+
+        Update README.md
+
+    commit e325faab05ad640d1e1dc31873dfd362b9c00a92
+    Author: zhangfengqi <jackyzfq@qq.com>
+    Date:   Fri Jul 10 12:50:58 2015 +0800
+
+        javascript继承总结
+
+    //如果嫌输出信息太多，看得眼花缭乱的，可以试试
+    $ git log --pretty=oneline
+    // 退出或者终止log 按q
+```
+
+3. 要重返未来，用`git reflog`查看命令历史，以便确定要回到未来的哪个版本
+
+```bash
+    $ git reflog
+    9a2f804 HEAD@{0}: pull: Merge made by the 'recursive' strategy.
+    3bb1509 HEAD@{1}: commit: 函数柯里化总结
+    e325faa HEAD@{2}: commit: javascript继承总结
+    bd0213d HEAD@{3}: clone: from https://github.com/zfengqi/blog-and-note.git
+```
+
+## 暂存区与工作区之间的修改
+#### 场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改
+**用命令`git checkout -- <file>`**
+
+命令`git checkout -- readme.txt`意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：
+
+1. readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+2. 一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改，本地文件就恢复到暂存区的版本。
+
+ps. 修改的是工作区的文件内容，即本地文件。
+
+#### 场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃暂存区关于这个文件的记录
+**分两步**
+
+- 第一步用命令`git reset HEAD <file>`，就回到了场景1,即撤销了对这个文件的add操作！
+- 第二步按场景1操作。
+
+#### 场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，版本回滚，不过前提是没有推送到远程库。
+
+#### 注意`git checkout -- <file>`的含义
+`git checkout -- <file>`其实是用版本库里的版本（包括暂存区）替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。
+
+## 创建和合并分支
+#### git分支创建原理
+在SVN当中，创建和切换分支的速度是很慢的，而在git里面就是1秒钟的事。
+
+![创建分支图示](http://www.liaoxuefeng.com/files/attachments/001384908811773187a597e2d844eefb11f5cf5d56135ca000/0)
+
+- 当我们创建新的分支，例如dev时，Git新建了一个指针叫dev，指向master相同的提交，再把HEAD改为指向dev，就表示当前分支在dev上
+
+- **因此快的原因在于：** git除了增加一个dev指针，改改HEAD的指向，工作区的文件都没有任何变化！
+
+- 这时commit，dev和HEAD就会向前移动，而master则停留在原地。
+
+#### 创建合并分支命令
+``` bash
+$ git branch // 查看已有的分支
+
+$ git branch new_branch // 创建分支(并没有切换)
+$ git checkout new_branch // 切换分支
+$ git checkout -b new_branch // 创建+切换到new_branch分支
+
+$ git branch -d new_branch // 删除分支
+$ git branch -D <name> //如果要丢弃一个没有被合并过的分支，可以强行删除
+$ git merge new_branch // 在主干master上进行merge
+Updating d17efd8..fec145a
+Fast-forward
+ readme.txt |    1 +
+ 1 file changed, 1 insertion(+)
+```
+`Fast-forward` 告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。
+
+#### 切换分支时出现的状况
+当前分支如果有没add和commit的内容的话，是没法切换到其他分支的
+
+如果暂时并不想commit，但是又有需要切换到其他分支的话，怎么办？
+``` bash
+$ git stash // 把当前工作现场“储藏”起来，等以后回来这个分支再继续工作
+$ git stash list
+stash@{0}: WIP on dev: 6224937 add merge
+```
+
+当再回到此分支时，发现暂存区是空的！需要把之前stash的内容恢复一下
+```bash
+$ git stash apply // 恢复后，stash内容并不删除，需要用git stash drop来删除
+$ git stash pop // 恢复的同时把stash内容也删了
+```
+
+stash的另一种使用场景：当当前分支代码没有commit时，是无法pull代码下来，这时需要先stash
+
+#### 解决冲突
+当在不同的分支，对同一个文件的同一个位置进行了修改，各自commit之后merge时：
+
+这种情况下，Git无法执行“快速合并”，只能试图把各自的修改合并起来，但这种合并就可能会有冲突。
+
+![不同分支的提交合并冲突](http://www.liaoxuefeng.com/files/attachments/001384909115478645b93e2b5ae4dc78da049a0d1704a41000/0)
+
+``` bash
+zhangfengqi@ED63038F43AD14D /D/zfengqi/github/Spoon-Knife (master)
+$ git merge branch222
+Auto-merging styles.css
+CONFLICT (content): Merge conflict in styles.css
+Automatic merge failed; fix conflicts and then commit the result.
+```
+这时候分支状态就会变成
+```bash
+zhangfengqi@ED63038F43AD14D /D/zfengqi/github/Spoon-Knife (master|MERGING)
+```
+手动解决冲突：打开发生冲突的文件，保留最终要的部分
+
+Git用`<<<<<<<`，`=======`，`>>>>>>>` 标记出不同分支的内容
+
+修改后，再次add & commit
+
+``` bash
+$ git log --graph //可以看到分支合并图。
+```
+
+## 常用命令
+```bash
+//pwd用于显示当前目录
+$ pwd
+/Users/michael/learngit
+
+//cat
+$ cat readme.txt
+Git is a distributed version control system.
+Git is free software distributed under the GPL.
+Git has a mutable index called stage.
+Git tracks changes.
+```

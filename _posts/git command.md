@@ -1,0 +1,392 @@
+---
+title: 《Pro Git》 读书笔记1
+date: 2016-01-12
+tags: ["git", "工具"]
+---
+
+## git config
+#### 1.config file 有以下几种
+
+```
+Config file location
+    --global              use global config file
+    --system              use system config file
+    --local               use repository config file
+    -f, --file <file>     use given config file
+    --blob <blob-id>      read config from given blob object
+```
+
+#### 2.有以下几种行为（action）指令，配合`Config file location`，用来增删改查不同的配置文件
+
+```
+Action
+    --get                 get value: name [value-regex]
+    --get-all             get all values: key [value-regex]
+    --get-regexp          get values for regexp: name-regex [value-regex]
+    --get-urlmatch        get value specific for the URL: section[.var] URL
+    --replace-all         replace all matching variables: name value [value_regex]
+    --add                 add a new variable: name value
+    --unset               remove a variable: name [value-regex]
+    --unset-all           remove all matches: name [value-regex]
+    --rename-section      rename section: old-name new-name
+    --remove-section      remove a section: name
+    -l, --list            list all
+    -e, --edit            open an editor
+    --get-color           find the color configured: slot [default]
+    --get-colorbool       find the color setting: slot [stdout-is-tty]
+```
+
+``` bash
+git --global --edit // 打开编辑器修改global配置文件
+git --global --list // 列出该配置文件中的所有配置信息
+```
+
+#### 3.设置key value的方式，`--add`可以省略，如果不加`Config file location`配置项的话，默认是保存到`--local`
+
+``` bash
+git config --add user.age 25
+git config user.xxx "hehehe"
+git config --global user.name "zhangfengqi"
+```
+
+#### 4.为常用命令设置别名`alias`
+
+```bash
+$ git config --global alias.co checkout
+$ git config --global alias.last 'log -1 HEAD'
+
+$ git config --global alias.unstage 'reset HEAD --'
+// 下面两者等同
+$ git unstage fileA
+$ git reset HEAD -- fileA
+```
+想要执行外部命令，而不是一个Git子命令，需要在命令前面加入`!`符号。
+```bash
+$ git config --global alias.visual '!gitk'
+```
+
+
+
+## ignore
+忽略某些后缀的文件，只需要修改`.gitignore`，将其添加进去
+
+``` bash
+vim .gitignore
+*.swp
+*.a
+!lib.a // 忽略所有.a后缀，但是lib.a除外！
+```
+文件 .gitignore 的格式规范如下：
+
+1. 所有空行或者以 ＃ 开头的行都会被 Git 忽略。
+
+2. 可以使用标准的 glob 模式匹配。
+
+3. 匹配模式可以以（/）开头防止递归。
+
+4. 匹配模式可以以（/）结尾指定目录。
+
+5. 要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（!）取反。
+
+所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。 星号（*) 匹配零个或多个任意字符；[abc] 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；问号（?）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 [0-9] 表示匹配所有 0 到 9 的数字）。 使用两个星号（*) 表示匹配任意中间目录，比如a/**/z 可以匹配 a/z, a/b/z 或 a/b/c/z等。
+
+``` bash
+# no .a files
+*.a
+# but do track lib.a, even though you're ignoring .a files above
+!lib.a
+# only ignore the TODO file in the current directory, not subdir/TODO
+/TODO
+# ignore all files in the build/ directory
+build/
+# ignore doc/notes.txt, but not doc/server/arch.txt
+doc/*.txt
+# ignore all .pdf files in the doc/ directory
+doc/**/*.pdf
+```
+[A collection of .gitignore templates](https://github.com/github/gitignore)
+
+
+## level 11 12 git rm
+http://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#Removing-Files
+
+1. 将文件从暂存区移除，并且连带从硬盘工作目录中删除
+
+2. 如果仅仅用rm把文件从硬盘中删除，则在git中会出现未暂存记录，这时需要再执行`git rm xxx` 记录这次删除文件的操作，下一次提交时，该文件就不再纳入版本管理了。
+
+3. 如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f（译注：即 force 的首字母）。 这是一种安全特性，用于防止误删还没有添加到快照的数据，这样的数据不能被 Git 恢复。
+
+4. 只想把文件从暂存区中删除（意味着不再让git跟踪），但不删除保留在硬盘中。
+使用场景：当你忘记添加 .gitignore 文件，不小心把一个很大的日志文件或一堆 .a 这样的编译生成文件添加到暂存区时，这一做法尤其有用。
+
+``` bash
+git rm --cached deleteme.rb // 保存working tree的文件，只从stage中移除，并不再追踪
+```
+
+## level 13 14 git mv
+#### 1. 改名 `git mv oldfile.txt newfile.txt`
+
+其实，运行 git mv 就相当于运行了下面三条命令：
+``` bash
+$ mv README.md README
+$ git rm README.md
+$ git add README
+```
+#### 2. 剪切文件
+
+``` bash
+// Make a new folder named src, and move all of the .html files into this folder
+git mv *.html src/
+```
+
+## level 18 git push
+https://git-scm.com/docs/git-push
+- git push --tags
+
+``` bash
+// git push origin HEAD
+A handy way to push the current branch to the same name on the remote.
+```
+
+## git commit --amend 修改最后一次提交
+#### 1. 修改最后一次的提交信息
+直接输入`git commit --amend`，会被带入编辑器进行提交信息修改
+#### 2. 一次提交已完成，但有个文件忘提进去了
+通过修改文件然后运行 `git add` 或 `git rm` 一个已追踪的文件，随后运行 `git commit --amend`拿走当前的暂存区域并使其做为新提交的快照。
+> **注意顶**
+> 因为修正会改变提交的 SHA-1 校验和。 它类似于一个小的变基 - 如果已经推送了最后一次提交就不要修正它。
+
+
+## git status [-s | --short]
+
+``` bash
+$ git status -s
+ M README
+MM Rakefile
+A  lib/git.rb
+M  lib/simplegit.rb
+?? LICENSE.txt
+```
+
+新添加的未跟踪文件前面有 ?? 标记，新添加到暂存区中的文件前面有 A 标记，修改过的文件前面有 M 标记。 你可能注意到了 M 有两个可以出现的位置，出现在右边的 M 表示该文件被修改了但是还没放入暂存区，出现在靠左边的 M 表示该文件被修改了并放入了暂存区。 例如，上面的状态报告显示： README 文件在工作区被修改了但是还没有将修改后的文件放入暂存区,lib/simplegit.rb 文件被修改了并将修改后的文件放入了暂存区。 而 Rakefile 在工作区被修改并提交到暂存区后又在工作区中被修改了，所以在暂存区和工作区都有该文件被修改了的记录。
+
+## git diff & git difftool
+1. 要查看尚未暂存的文件更新了哪些部分，不加参数直接输入 git diff
+请注意，git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。 所以有时候你一下子暂存了所有更新过的文件后，运行 git diff 后却什么也没有，就是这个原因。
+
+2. 若要查看已暂存的将要添加到下次提交里的内容，可以用 git diff --cached 命令。（Git 1.6.1 及更高版本还允许使用 git diff --staged，效果是相同的，但更好记些。）
+
+3. git diff 查看各个区(工作区 暂存区 版本库)之间的差异
+> `git diff` 比较的是工作区和暂存区的差别
+> `git diff –cached` 比较的是暂存区和版本库的差别
+> `git diff HEAD` 可以查看工作区和版本库的差别
+> 每次commit后,`git diff –cached`没有内容，是因为暂存区的内容已经更新到版本库中，因此暂存区和版本库中的内容无差别
+
+4. git diff的插件版本
+``` bash
+git difftool --tool-help // 看你的系统支持哪些 Git Diff 插件
+git config --global diff.tool vimdiff
+git difftool --edit vimdiff
+```
+
+## git log 查看提交历史
+
+#### 1. 默认情况（不加任何参数）
+
+``` bash
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+```
+按提交时间列出所有的更新，最近的更新排在最上面。加入参数`-p`可以看到每次提交的内容差异
+
+#### 2. 简单定制输出内容 `--pretty=oneline | short | full | fuller`
+
+``` bash
+$ git log --pretty=oneline // 只有commit号和comment
+4df268a7256494563ff21feeb245a5fb52e42709 m_school bug fixed1
+a1f8f9f33ffa4a39d99a0325e92acd73a48e11fa agent phone
+
+$ git log --pretty=short // 没有提交时间，是merge的提交会有简明提示
+commit 7e65491f3f742c3dd3befccd01f74d60d1000c19
+Author: zuoerdong
+
+    redian index, brief content trim space and substr to length 100
+
+commit de7042ce4004d8207d3aa4f768d076402ccc972c
+Merge: 4f0513c 448fdf7
+Author: Wang Chunwei
+
+git log --pretty=full // 作者和提交者都会列出来，还是没有提交时间
+commit 4df268a7256494563ff21feeb245a5fb52e42709
+Author: Zhang Fengqi <zhangfengqi@xxx.com>
+Commit: Zhang Fengqi <zhangfengqi@xxx.com>
+
+    m_school bug fixed1
+
+$ git log --pretty=fuller // 多了时间
+commit 4df268a7256494563ff21feeb245a5fb52e42709
+Author:     Zhang Fengqi <zhangfengqi@xxx.com>
+AuthorDate: Fri Jan 15 18:28:23 2016 +0800
+Commit:     Zhang Fengqi <zhangfengqi@xxx.com>
+CommitDate: Fri Jan 15 18:28:23 2016 +0800
+
+    m_school bug fixed1
+```
+
+#### 3. 高度定制输出内容 `--pretty=format:"xxx"`
+`alias.hist=log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short`
+
+| 选项 | 说明 |
+| ------------- | ------------- |
+| %h | commit的短哈希，大写H则为完整哈希 |
+| %t | tree的短哈希，同上 |
+| %an | 作者（author）名字 |
+| %ae | anthor email |
+| %ad | 作者修订日期（可以用 --date= 选项定制格式） |
+| %ar | relative date 按多久以前的方式显示 |
+| %s | 提交说明 |
+
+`%ar`等同于`--date=relative`或者`--relative-date`
+
+#### 4. 限定输出长度和内容
+- 想获取多个限制条件的并集时，需要添加`--all-match`选项，否则满足任意一个条件的提交都会被匹配出来
+
+| 选项 | 说明 | example |
+| ------------- | ------------- | ------- |
+| `-(n)` | 仅显示最近的n条提交 |
+| `--since` 或 `--after` | 仅显示指定时间之后的提交 | `--since="2016-01-01" or "1 month 1 day 9 hours ago"`
+| `--until` 或 `--before` | 仅显示指定时间之前的提交 | |
+| `--anthor` | 指定作者 | |
+| `--commiter` | 指定提交者 | |
+| `--grep` | 匹配提交说明中的关键字 | `--grep=gulp` `--grep="initial commit"`
+| `--S` | 仅显示添加或移除了某个关键字的提交 | `--Sfunction_named`
+
+#### 5. 其他选项
+- `--decorate`
+命令查看各个分支当前所指的commit对象
+
+```bash
+$ git log --oneline --decorate
+4df268a (HEAD, origin/master, origin/HEAD, master) m_school bug fixed1
+a1f8f9f agent phone
+```
+
+
+## 远程仓库
+
+## git tag
+两种类型的标签：轻量标签（lightweight）与附注标签（annotated）
+
+#### 1. 附注标签
+附注标签是存储在 Git 数据库中的一个完整对象。它们是可以被校验的；其中包含打标签者的名字、电子邮件地址、日期时间；通常建议创建附注标签。
+
+使用`-a`,a for annotated.
+```bash
+$ git tag -a v1.4 -m 'my version 1.4'
+$ git tag
+v0.1
+v1.3
+v1.4
+
+// 查看标签的详细信息
+$ git show v1.4
+tag v1.4
+Tagger: Ben Straub <ben@straub.cc>
+Date:   Sat May 3 20:19:12 2014 -0700
+
+my version 1.4
+
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+```
+
+#### 2.轻量标签
+不保存任何相关信息，只是一个特定提交的引用，轻量标签本质上是将提交校验和存储到一个文件中，然后做个map对应。
+
+```bash
+// 不需要任何其他参数，也不需要写comment
+$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5
+
+// 假设v1.4的commit号为ca82a6，下面两者等同，不会有额外的标签信息
+$ git show v1.4
+$ git show ca82a6
+```
+#### 3.对已有的提交打tag
+```bash
+$ git tag -a v1.2 9fceb02
+```
+
+#### 4.推送标签到远程
+默认情况下，git push 命令并不会传送标签到远程仓库服务器上。在创建完标签后你必须显式地推送标签到共享服务器上。
+```bash
+$ git push origin v1.5
+$ git push origin --tags // 推送所有不在远程仓库上的标签
+```
+#### 5.在某个tag基础上建分支
+`git checkout -b [branchname] [tagname]`
+
+## git reset & git checkout
+> https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86
+
+#### 1. 三个区
+| 树 | 用途 |
+| ------------- | ------------- |
+| HEAD | 指向上一次提交的快照，下一次提交的父结点 |
+| Index(暂存区) | 预期的下一次提交的快照，add操作之后所放置的区域，当你运行`git commit`时 Git 看起来的样子|
+| working Directory | 硬盘本地工作目录，沙盒 |
+
+- `git init`执行之后只有工作目录有文件1.js(v1)
+- `git add 1.js`后现在暂存区和工作目录有1.js(v1)，HEAD里没有
+- `git commit`之后，现在三个区中的文件才是一致的，1.js(v1)
+- 只有三个区中的文件集合都一致的时候，`git status`才会显示为空
+
+#### 2. `git reset` 三步原理
+1. dfd
+2. dsf
+
+## Git分支
+#### 1. 分支简介
+- Git的分支，其实本质上仅仅是指向commit对象的可变指针
+- git创建分支，其实是为你创建了一个可以移动的新的指针
+- 通过`HEAD`这个特殊指针，GIT获知当前在哪个分支上。`HEAD`可被看作为当前分支的别名。可以简单认为`checkout`到哪儿，`HEAD`移动到哪儿
+
+```
+$ git branch dev
+  HEAD -> master
+             ↓
+98ca9 <--- f30ab
+             ↑
+            dev
+
+$ git checkout -b dev // 当新建并切换到dev分支时，HEAD才会移动
+           master
+             ↓
+98ca9 <--- f30ab
+             ↑
+            dev <- HEAD
+```
+
+- 如果分别在master和dev上进行commit，则历史记录就会开始分叉
+- 由于 Git 的分支实质上仅是包含所指对象校验和（长度为 40 的 SHA-1 值字符串）的文件，所以它的创建和销毁都异常高效。 创建一个新分支就像是往一个文件中写入 41 个字节（40 个字符和 1 个换行符）
+
+
+
+
+
+
+
+
+
+
