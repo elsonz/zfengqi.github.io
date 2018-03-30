@@ -1,22 +1,22 @@
 # SITE CONFIGURATION
 baseurl: "/"
 url: "https://zfengqi.github.io"
-title: Type on Strap # site's title
+title: elson's blog # site's title
 description: "web学习记录" # used by search engines
 
 
 # THEME-SPECIFIC CONFIGURATION
 theme_settings:
   # Meta
-  title: Type on Strap # blog's title
-  avatar: assets/img/triangle.svg
+  title: elson's blog # blog's title
+  avatar: assets/img/elson.jpg
   favicon: assets/favicon.ico
   gravatar: # Email MD5 hash
 
   # Header and footer text
   header_text: > #two or three lines to describe your site
-     <p>Change header text in <code>_config.yml</code> <br> to update this feature.</p>
-  header_text_feature_image: assets/img/pexels/triangular.jpeg
+     <p>keep learning</p>
+  header_text_feature_image: assets/img/feature/index.jpg
   footer_text: >
    Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
 
@@ -48,20 +48,20 @@ theme_settings:
   # Scripts / Features 
   google_analytics: # Tracking ID, e.g. "UA-000000-01"
   disqus_shortname:
-  katex: true # Enable if using math markup
-  portfolio: true
+  katex: false # Enable if using math markup
+  portfolio: false
   search: true
   tags: true
   
   # Localization strings
-  str_follow_on: "Follow on"
+  str_follow_on: "关注我"
   str_rss_follow: "Follow RSS feed"
-  str_email: "Email"
-  str_next_post: "Next post"
-  str_previous_post: "Previous post"
+  str_email: "email"
+  str_next_post: "下一篇"
+  str_previous_post: "上一篇"
   str_next_page: "Next"
   str_previous_page: "Prev"
-  str_continue_reading: "Continue reading"
+  str_continue_reading: "阅读全文"
   str_javascript_required_disqus: "Please enable JavaScript to view comments."
 
   # Colours, typography and padding
