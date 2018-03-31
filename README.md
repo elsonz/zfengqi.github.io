@@ -1,352 +1,272 @@
-# Type on Strap 
+# BY Blog
 
-[![Build Status](https://travis-ci.org/Sylhare/Type-on-Strap.svg?branch=master)](https://travis-ci.org/Sylhare/Type-on-Strap) 
-[![Gem Version](https://badge.fury.io/rb/type-on-strap.svg)](https://badge.fury.io/rb/type-on-strap)
+> 下面是博客的搭建教程，这个教程修改自 [Hux](https://github.com/Huxpro/huxpro.github.io) 。
+> 
+> 更为详细的教程戳这 [《利用 GitHub Pages 快速搭建个人博客》](http://www.jianshu.com/p/e68fba58f75c) 或 [wiki](https://github.com/qiubaiying/qiubaiying.github.io/wiki/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B)
+> 
+### [我的博客在这里 &rarr;](http://qiubaiying.github.io)
 
-A free and open-source [Jekyll](https://jekyllrb.com) theme. Based on Rohan Chandra [type-theme](https://github.com/rohanchandra/type-theme) with a few new features:
+![](https://raw.githubusercontent.com/qiubaiying/qiubaiying.github.io/master/img/readme-home.png)
 
-* Responsive design
-* Portfolio page for your projects
-* Tags compatibility
-* Bootstrap : [Get Bootstrap](http://getbootstrap.com/)
-* Search feature : [Simple-Jekyll-Search](https://github.com/christian-fei/Simple-Jekyll-Search)
-* Math Rendering : [KateX](https://github.com/Khan/KaTeX)
-* Seo Tags : [Jekyll-seo-tag](https://help.github.com/articles/search-engine-optimization-for-github-pages/)
-* Syntax Highlighting: Easily customisable [Base16](https://github.com/chriskempson/base16)
-* Free of rights images from [pexels](https://www.pexels.com/)
 
-> [Demo](https://sylhare.github.io/Type-on-Strap/)
+## 使用
+
+* 开始
+	* [环境](#环境)
+	* [开始](#开始)
+	* [撰写博文](#撰写博文)
+* 组件
+	* [侧边栏](#侧边栏)
+	* [迷你关于我](#mini-about-me)
+	* [推荐标签](#featured-tags)
+	* [好友链接](#friends)
+	* [HTML5 演示文档布局](#keynote-layout)
+* 评论与 Google/Baidu Analytics
+	* [评论](#comment)
+	* [网站分析](#analytics) 
+* 高级部分
+	* [自定义](#customization)
+	* [标题底图](#header-image)
+	* [搜索展示标题-头文件](#seo-title)
+
+
+
+### 环境
+
+如果你安装了 [jekyll](http://jekyllcn.com/)，那你只需要在命令行输入`jekyll serve` 或 `jekyll s`就能在本地浏览器中输入`http://127.0.0.1:4000/`预览主题，对主题的修改也能实时展示（需要强刷浏览器）。
+
+
+
+### 开始
+
+你可以通用修改 `_config.yml`文件来轻松的开始搭建自己的博客:
+
+```
+# Site settings
+title: BY Blog                    # 你的博客网站标题
+SEOTitle: 柏荧的博客 | BY Blog		# SEO 标题
+description: "Hey"	   	   # 随便说点，描述一下
+
+# SNS settings      
+github_username: qiubaiying     # 你的github账号
+jianshu_username: e71990ada2fd  # 你的简书ID。
+
+# Build settings
+# paginate: 10              # 一页你准备放几篇文章
+```
+
+Jekyll官方网站还有很多的参数可以调，比如设置文章的链接形式...网址在这里：[Jekyll - Official Site](http://jekyllrb.com/) 中文版的在这里：[Jekyll中文](http://jekyllcn.com/).
+
+### 撰写博文
+
+要发表的文章一般以 **Markdown** 的格式放在这里`_posts/`，你只要看看这篇模板里的文章你就立刻明白该如何设置。
+
+yaml 头文件长这样:
+
+```
+---
+layout:     post
+title:      定时器 你真的会使用吗？
+subtitle:   iOS定时器详解
+date:       2016-12-13
+author:     BY
+header-img: img/post-bg-ios9-web.jpg
+catalog: 	 true
+tags:
+    - iOS
+    - 定时器
+---
+
+```
+
+### 侧边栏
+
+看右边:
+![](https://raw.githubusercontent.com/qiubaiying/qiubaiying.github.io/master/img/readme-side.png)
+
+设置是在 `_config.yml`文件里面的`Sidebar settings`那块。
+
+```
+# Sidebar settings
+sidebar: true  #添加侧边栏
+sidebar-about-description: "简单的描述一下你自己"
+sidebar-avatar: /img/avatar-by.jpg     #你的大头贴，请使用绝对地址.注意：名字区分大小写！后缀名也是
+```
+
+侧边栏是响应式布局的，当屏幕尺寸小于992px的时候，侧边栏就会移动到底部。具体请见bootstrap栅格系统 <http://v3.bootcss.com/css/>
+
+
+### Mini About Me
+
+Mini-About-Me 这个模块将在你的头像下面，展示你所有的社交账号。这个也是响应式布局，当屏幕变小时候，会将其移动到页面底部，只不过会稍微有点小变化，具体请看代码。
+
+### Featured Tags
+
+看到这个网站 [Medium](http://medium.com) 的推荐标签非常的炫酷，所以我将他加了进来。
+这个模块现在是独立的，可以呈现在所有页面，包括主页和发表的每一篇文章标题的头上。
+
+```
+# Featured Tags
+featured-tags: true  
+featured-condition-size: 1     # A tag will be featured if the size of it is more than this condition value
+```
+
+唯一需要注意的是`featured-condition-size`: 如果一个标签的 SIZE，也就是使用该标签的文章数大于上面设定的条件值，这个标签就会在首页上被推荐。
  
-[![Default Type on Strap blog](https://github.com/Sylhare/Type-on-Strap/blob/master/screenshot.png?raw=true)](https://sylhare.github.io/Type-on-Strap/)
+内部有一个条件模板 `{% if tag[1].size > {{site.featured-condition-size}} %}` 是用来做筛选过滤的.
 
-## Table of Contents
+### Social-media Account
 
-1. [Usage](https://github.com/Sylhare/Type-on-Strap#Usage)
-2. [Structure](https://github.com/Sylhare/Type-on-Strap#structure)
-3. [Configure Type on Strap](https://github.com/Sylhare/Type-on-Strap#configure-type-on-strap)
-4. [Layout](https://github.com/Sylhare/Type-on-Strap#layout)
-5. [Feature pages](https://github.com/Sylhare/Type-on-Strap#feature-pages)
-6. [Template as a Gem](https://github.com/Sylhare/Type-on-Strap#Template-as-a-Gem)
-7. [License](https://github.com/Sylhare/Type-on-Strap#license)
+在下面输入的社交账号，没有的添加的不会显示在侧边框中。新加入了[简书](https:/www.jianshu.com)链接, <http://www.jianshu.com/u/e71990ada2fd>
 
-## Usage
-
-1. Fork and clone the [Type on Strap repo](https://github.com/sylhare/Type-On-Strap): `git clone https://github.com/Sylhare/Type-on-Strap.git`
-2. Install [Jekyll](https://jekyllrb.com/docs/installation/): `gem install jekyll`, check [#1](https://github.com/Sylhare/Type-on-Strap/issues/1) if you have a problem.
-3. Install the theme's dependencies: `bundle install`
-4. Customize the theme
-	- Github Page: [update `_config.yml`](https://github.com/Sylhare/Type-on-Strap#site-configuration)
-5. Run the Jekyll server: `jekyll serve`
-
-## Structure
-
-Here are the main files of the template
-
-```bash
-jekyll-theme-basically-basic
-├── _draft	               # To store your drafts, they won't be published on your site
-├── _includes	               # theme includes
-├── _layouts                   # theme layouts (see below for details)
-├── _portfolio	               # collection of article to be populated in the portfolio page
-├── _posts                     # Blog posts
-├── _sass                      # Sass partials 
-├── assets
-|  ├── js	               # theme javascript, Katex, jquery, bootstrap, jekyll search, 
-|  ├── css                     # isolated Bootstrap, font-awesome, katex and main css
-|  ├── fonts		       # Font-Awesome, Glyphicon, and other fonts
-|  └── img		       # Images used for the template
-├── pages
-|   ├── 404.md		       # To be displayed when url is wrong
-|   ├── about.md               # About example page
-|   ├── portfolio.html	       # Portfolio bootstrapped page
-|   ├── search.html	       # Search page
-|   └── search.json            # Specify the search target (page, post, collection)
-├── _config.yml                # sample configuration
-└── index.html                 # sample home page (blog page paginated)
-```
+	# SNS settings
+	RSS: false
+	jianshu_username: 	jianshu_id 
+	zhihu_username:     username
+	facebook_username:  username
+	github_username:    username
+	# weibo_username:   username
 	
-## Configure Type on Strap
+	
 
-Open `_config.yml` in a text editor to change most of the blog's settings.
+![](http://ww4.sinaimg.cn/large/006tKfTcgy1fgrgbgf77aj308i02v748.jpg)
 
-If a variable in this document is marked as "optional", disable the feature by removing all text from the variable. 
+### Friends
 
+好友链接部分。这会在全部页面显示。
 
-### Site configuration
-Configure Jekyll as your own blog or with a subpath in in `_config.yml`:
+设置是在 `_config.yml`文件里面的`Friends`那块，自己加吧。
 
-Jekyll website *without* a subpath (such as a GitHub Pages website for a given username):
-
-```yml
-  baseurl: ""
-  url: "https://username.github.io"
 ```
-
-Jekyll website *with* subpath (like the Type on Strap [demo](https://sylhare.github.io/Type-on-Strap/) page):
-
-```yml
-  baseurl: "/sub-directory"
-  url: "https://username.github.io/"
-```
-
-Please configure this  before using the theme.
-
-### Meta and Branding
-
-Meta variables hold basic information about your Jekyll site which will be used throughout the site and as meta properties for search engines, browsers, and the site's RSS feed.
-
-Change these variables in `_config.yml`:
-
-```yml
-  theme_settings:
-    title: My Jekyll Blog                 # Name of website
-    avatar: assets/img/triangular.svg     # Path of avatar image, to be displayed in the theme's header
-    gravatar: f98....6bfc                 # MD5 hash of your email address
-    description: My blog posts            # Short description, primarily used by search engines
-```
-
-### Customizing text
-
-#### Footer and Header's text
-
-Customize your site header/footer with these variables in `_config.yml`:
-
-```yml
-  theme_settings:
-    header_text: Welcome to my Jekyll blog
-    header_text_feature_image: assets/img/sample3.png
-    footer_text: Copyright 2017
-```
-
-#### Localisation string
-
-Change localization string variables in `_config.yml`.
-
-English text used in the theme has been grouped  so you can quickly translate the theme or change labels to suit your needs.
-
-```yml
-  theme_settings:
-     str_follow_on: "Follow on"
-     str_rss_follow: "Follow RSS feed"
-     str_email: "Email"
-     str_next_post: "Next post"
-     str_previous_post: "Previous post"
-     str_next_page: "Next"
-     str_previous_page: "Prev"
-     str_continue_reading: "Continue reading"
-     str_javascript_required_disqus: "Please enable JavaScript to view comments."
+# Friends
+friends: [
+    {
+        title: "BY Blog",
+        href: "https://qiubaiying.github.io/"
+    },
+    {
+        title: "Apple",
+        href: "https://apple.com/"
+    }
+]
 ```
 
 
-### Other features
+### Keynote Layout
 
-Jekyll works with [liquid](https://shopify.github.io/liquid/) tags usually represented by:
+HTML5幻灯片的排版：
+
+![](https://camo.githubusercontent.com/f30347a118171820b46befdf77e7b7c53a5641a9/687474703a2f2f6875616e677875616e2e6d652f696d672f626c6f672d6b65796e6f74652e6a7067)
+
+这部分是用于占用html格式的幻灯片的，一般用到的是 Reveal.js, Impress.js, Slides, Prezi 等等.我认为一个现代化的博客怎么能少了放html幻灯的功能呢~
+
+其主要原理是添加一个 `iframe`，在里面加入外部链接。你可以直接写到头文件里面去，详情请见下面的yaml头文件的写法。
 
 ```
-{{ liquid.tag | filter }}
-```
-
-These are useful to render your jekyll files. You can learn more about them on [shopify's doc](https://help.shopify.com/themes/liquid/basics)
-
-### Footer's icons
-
-Display the site's icon from [Font Awesome](https://fortawesome.github.io/Font-Awesome/) in the footer. All icon variables should be your username enclosed in quotes (e.g. "username") in `_config.yml`, except for the following variables:
-
-```yml
-  theme_settings:
-     rss: true                                                   # Make sure you created a feed.xml with feed.xml layout
-     email_address: type@example.com
-     linkedin: https://www.linkedin.com/in/FirstLast
-     stack_exchange: https://stackoverflow.com/users/0000/first-last
-```
-
-### Comments (via Disqus)
-
-Optionally, if you have a [Disqus](https://disqus.com/) account, you can show a 
-comments section below each post.
-
-To enable Disqus comments, add your [Disqus shortname](https://help.disqus.com/customer/portal/articles/466208) to your project's `_config.yml` file:
-
-```yml
-  theme_settings:
-     disqus_shortname: my_disqus_shortname
-```
-
-### Google Analytics
-
-To enable Google Analytics, add your [tracking ID](https://support.google.com/analytics/answer/1032385) 
-to `_config.yml` like so:
-
-```yml
-  theme_settings:
-     google_analytics: UA-NNNNNNNN-N
-```
-
-### Math typesetting
-
-When KateX is set in `_config.yml`:
-
-```yml
-  theme_settings:
-     katex: true # to Enable it
-```
-
-You can then wrap math expressions with `$$` signs in your posts and make sure you have set the `katex` variable in `_config.yml` to `true` for math typesetting.
-
-For inline math typesetting, type your math expression on the *same line* as your content. For example:
-
-```latex
-Type math within a sentence $$2x^2 + x + c$$ to display inline
-```
-
-For display math typesetting, type your math expression on a *new line*. For example:
-
-```latex
-$$
-  \bar{y} = {1 \over n} \sum_{i = 1}^{n}y_i
-$$
-```
-
-### Post excerpt
-
-The [excerpt](https://jekyllrb.com/docs/posts/#post-excerpts) are the first lines of an article that is display on the blog page. The length of the excerpt has a default of around `250` characters and can be manually set in the post using:
-```yml
 ---
-layout: post
-title: Sample Page
-excerpt_separator: <!--more-->
----
-
-some text in the excerpt
-<!--more-->
-... rest of the text not shown in the excerpt ...
-```
-
-The html is stripped out of the excerpt so it only display text.
-
-## Layout
-Please refer to the [Jekyll docs for writing posts](https://jekyllrb.com/docs/posts/). Non-standard features are documented below.
-
-### Layout: Post
-
-This are the basic features you can use with the  `post` layout.
-
-```yml
----
-layout: post
-title: Hello World                                # Title of the page
-subtitle: "This is a subtitle"                    # A subtitle can be displayed below your title
-feature-img: "assets/img/sample.png"              # Add a feature-image to the post
-thumbnail: "assets/img/thumbnail/sample-th.png"   # Add a thumbnail image on blog view
-tags: [sample, markdown, html]
+layout:     keynote
+iframe:     "http://huangxuan.me/js-module-7day/"
 ---
 ```
 
-With `thumbnail`, you can add a smaller image than the `feature-img`. If you don't want/have a thumbnail you can still use the same image as the feature one.
+iframe在不同的设备中，将会自动的调整大小。保留内边距是为了让手机用户可以向下滑动，以及添加更多的内容。
 
-### Layout: Page
 
-The page layout have a bit more features explained here.
+### Comment
 
-```yml
----
-layout: page
-title: "About" 
-subtitle: "This is a subtitle"   
-feature-img: "assets/img/sample.png" 
-permalink: /about.html               # Set a permalink your your page
-hide: true                           # Prevent the page title to appear in the navbar
-tags: [sample, markdown, html]
----
+博客不仅支持 [Disqus](http://disqus.com) 评论系统,还加入了 [Gitalk](https://gitalk.github.io/) 评论系统，[支持 Markdwon 语法](https://guides.github.com/features/mastering-markdown/)，cool~
+
+#### Disqus
+
+优点：国际比较流行，界面也很大气、简洁，如果有人评论，还能实时通知，直接回复通知的邮件就行了；
+
+缺点：评论必须要去注册一个disqus账号，分享一般只有Facebook和Twitter，另外在墙内加载速度略慢了一点。想要知道长啥样，可以看以前的版本点[这里](http://brucezhaor.github.io/about.html) 最下面就可以看到。
+
+> Node：有很多人反映 Disqus 插件加载不出来，可能墙又架高了，有条件的话翻个墙就好了~
+
+**使用：**
+
+**首先**，你需要去注册一个Disqus帐号。**不要直接使用我的啊！**
+
+**其次**，你只需要在下面的 yaml 头文件中设置一下就可以了。
+
+```
+# 评论系统
+# Disqus（https://disqus.com/）
+disqus_username: qiubaiying
 ```
 
-The hide only hides your page from the navigation bar, it is however still generated and can be access through its link. Use the `_draft` folder to keep files from being generated on your site.
+#### Gitalk
 
-### Layout: Bootstrap
+优点：界面干净简洁，利用 Github issue API 做的评论插件，使用 Github 帐号进行登录和评论，最喜欢的支持 Markdown 语法，对于程序员来说真是太 cool 了。
 
-This is the page layout modified to have bootstrap activated to format your content accordingly with the theme.
+缺点：配置比较繁琐，每篇文章的评论都需要初始化。
 
-```yml
---- 
-layout: bootstrap
----
+**使用：**
+
+参考我的这篇文章：[《为博客添加 Gitalk 评论插件》](http://qiubaiying.top/2017/12/19/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0-Gitalk-%E8%AF%84%E8%AE%BA%E6%8F%92%E4%BB%B6/)
+
+
+### Analytics
+
+网站分析，现在支持百度统计和Google Analytics。需要去官方网站注册一下，然后将返回的code贴在下面：
+
+```
+# Baidu Analytics
+ba_track_id: 4cc1f2d8f3067386cc5cdb626a202900
+
+# Google Analytics
+ga_track_id: 'UA-49627206-1'            # 你用Google账号去注册一个就会给你一个这样的id
+ga_domain: huangxuan.me			# 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto。
 ```
 
-### Layout: Default
+### Customization
 
-This layout includes the head, navigation bar and footer around your content.
+如果你喜欢折腾，你可以去自定义这个模板的 Code。
 
-## Feature pages
+**如果你可以理解 `_include/` 和 `_layouts/`文件夹下的代码（这里是整个界面布局的地方），你就可以使用 Jekyll 使用的模版引擎 [Liquid](https://github.com/Shopify/liquid/wiki)的语法直接修改/添加代码，来进行更有创意的自定义界面啦！**
 
-All feature pages besides the "home" one are stored in the `page` folder, they will appear in the navigation bar unless you set `Hide: true` in the front matter. 
+### Header Image
 
-Here are the documentation for the other feature pages that can be added through `_config.yml`.
+博客每页的标题底图是可以自己选的，看看几篇示例post你就知道如何设置了。
+  
+标题底图的选取完全是看个人的审美了。每一篇文章可以有不同的底图，你想放什么就放什么，最后宽度要够，大小不要太大，否则加载慢啊。
 
-### Home
+> 上传的图片最好先压缩，这里推荐 imageOptim 图片压缩软件，让你的博客起飞。
 
-This page is the used as the home page of the template (in the `index.html`). It displays the list of article in `_posts`.
-You can use this layout in another page (adding a title to it will make it appear in the navigation bar).
+但是需要注意的是本模板的标题是**白色**的，所以背景色要设置为**灰色**或者**黑色**，总之深色系就对了。当然你还可以自定义修改字体颜色，总之，用github pages就是可以完全的个性定制自己的博客。
 
-### Portfolio
+### SEO Title
 
-Portfolio is a feature bootstrapped page that will take all the markdown/html files in the `_portfolio` folder to create a 3x3 image portfolio matrix.
+我的博客标题是 **“BY Blog”** 但是我想要在搜索的时候显示 **“柏荧的博客 | BY Blog”** ，这个就需要 SEO Title 来定义了。
 
-The portfolio page can be enable/disable in the navigation bar through the `_config.yml` via:
-```yml
-# Scripts / Feature
-  portfolio: true
-```
+其实这个 SEO Title 就是定义了<head><title>标题</title></head>这个里面的东西和多说分享的标题，你可以自行修改的。
 
-### Search
+### 关于收到"Page Build Warning"的 Email
 
-The search feature is based on [Simple-Jekyll-search](https://github.com/christian-fei/Simple-Jekyll-Search) there is a `search.json` file that will create a list of all of the site posts, pages and portfolios. 
+由于jekyll升级到3.0.x,对原来的 pygments 代码高亮不再支持，现只支持一种-rouge，所以你需要在 `_config.yml`文件中修改`highlighter: rouge`.另外还需要在`_config.yml`文件中加上`gems: [jekyll-paginate]`.
 
-Then there's a `search.js` displaying the formated results entered in the `search.html` page. 
+同时,你需要更新你的本地 jekyll 环境.
+
+使用`jekyll server`的同学需要这样：
+
+1. `gem update jekyll` # 更新jekyll
+2. `gem update github-pages` #更新依赖的包
+
+使用`bundle exec jekyll server`的同学在更新 jekyll 后，需要输入`bundle update`来更新依赖的包.
+
+> Note：
+> 可以使用 `jekyll -s` 命令在本地实时配置博客，提高效率。详见 [Jekyll.com](http://jekyllcn.com/)
+
+参考文档：[using jekyll with pages](https://help.github.com/articles/using-jekyll-with-pages/) & [Upgrading from 2.x to 3.x](http://jekyllrb.com/docs/upgrading/2-to-3/)
 
 
-The search page can be enable/disable in the navigation bar through the `_config.yml` via:
-```yml
-# Scripts / Feature
-  search: true
-```
+## 致谢
 
-### Tags
-
-Tags should be placed between `[]` in your post metadata. Seperate each tag with a comma. Tags are recommended for posts and portfolio items.
-
-For example:
-
-```yml
----
-layout: post
-title: Markdown and HTML
-tags: [sample, markdown, html]
----
-```
-
-> Tags are case sensitive `Tag_nAme` ≠ `tag_name`
-
-All the tags will be listed in `tags.html` with a link toward the pages or posts.
-The tags page can be enable/disable in the navigation bar through the `_config.yml` via:
-
-```yml
-# Scripts / Feature
-  tags: true
-```
-
-## Template as a Gem
-
-You can use Type-on-strap as a [gem](https://rubygems.org/gems/type-on-strap). Checkout an example in the [gem-demo branch](https://github.com/Sylhare/Type-on-Strap/tree/gem-demo).
-To make the feature pages available in from the gem I created them as layouts that can be invoked in the pages folder.
-
-So if you're using the template as a theme, Make sure you have:
-  - A `index.html` file
-  - The right `_config.yml` with the theme setting such as `theme: type-on-strap` uncommented
-  - The feature page included. (ex: as it is already in `pages`)
-  - Some content ready in `_posts` and `_portfolio` to be displayed
-
-Now you can use any theme gem with github pages : [29/11/2017 Github Pages Broadcast](https://github.com/blog/2464-use-any-theme-with-github-pages)
+1. 这个模板是从这里 [Hux](https://github.com/Huxpro/huxpro.github.io) fork 的, 感谢这个作者。 
+2. 感谢 Jekyll、Github Pages 和 Bootstrap!
 
 ## License
 
-[The MIT License (MIT)](https://raw.githubusercontent.com/Sylhare/Type-on-Strap/master/LICENSE)
+遵循 MIT 许可证。有关详细,请参阅 [LICENSE](https://github.com/qiubaiying/qiubaiying.github.io/blob/master/LICENSE)。
+

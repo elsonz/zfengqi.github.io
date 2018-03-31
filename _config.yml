@@ -1,95 +1,105 @@
-# SITE CONFIGURATION
-baseurl: "/"
-url: "https://zfengqi.github.io"
-title: elson's blog # site's title
-description: "web学习记录" # used by search engines
+# Site settings
+title: Elson's Blog
+SEOTitle: Elson的博客 | web前端
+header-img: img/home-bg-mountain.jpg
+email: zfengqi90@163.com
+description: "keep learning."
+keyword: "elson, elson's Blog, web, frontend"
+url: "http://zfengqi.github.io"          # your host, for absolute URL
+baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
+github_repo: "https://github.com/zfengqi/zfengqi.github.io.git" # you code repository
+
+# Sidebar settings
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: 
+sidebar-avatar: /img/avatar_elson.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
-# THEME-SPECIFIC CONFIGURATION
-theme_settings:
-  # Meta
-  title: elson's blog # blog's title
-  avatar: assets/img/elson.jpg
-  favicon: assets/favicon.ico
-  gravatar: # Email MD5 hash
 
-  # Header and footer text
-  header_text: > #two or three lines to describe your site
-     <p>keep learning</p>
-  header_text_feature_image: assets/img/feature/index.jpg
-  footer_text: >
-   Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
-
-  # Icons
-  rss: true  # Make sure you created a feed.xml with feed.xml layout
-  email_address: "zfengqi90@163.com"
-  behance:
-  bitbucket:
-  dribbble:
-  facebook:
-  flickr:
-  gitlab:
-  github: "zfengqi"
-  google_plus:
-  instagram:
-  keybase:
-  linkedin:  # Full URL
-  pinterest:
-  reddit:
-  soundcloud:
-  stack_exchange:  # Full URL
-  steam:
-  tumblr:
-  twitter: # "twitter username"
-  vimeo:
-  wordpress:
-  youtube:
-
-  # Scripts / Features 
-  google_analytics: # Tracking ID, e.g. "UA-000000-01"
-  disqus_shortname:
-  katex: false # Enable if using math markup
-  portfolio: false
-  search: true
-  tags: true
-  
-  # Localization strings
-  str_follow_on: "关注我"
-  str_rss_follow: "Follow RSS feed"
-  str_email: "email"
-  str_next_post: "下一篇"
-  str_previous_post: "上一篇"
-  str_next_page: "Next"
-  str_previous_page: "Prev"
-  str_continue_reading: "阅读全文"
-  str_javascript_required_disqus: "Please enable JavaScript to view comments."
-
-  # Colours, typography and padding
-  # Open the "_sass > base" folder, and open "_variables.scss"
-  google_fonts: "Source+Sans+Pro:400,700,700italic,400italic"
-
-  # Post navigation
-  post_navigation: true
-  
-
-# PAGINATION
-paginate: 5
-paginate_path: "blog/page:num"
+# SNS settings
+RSS: false
+# weibo_username:     
+zhihu_username:     
+github_username:    zfengqi
+facebook_username:  
+jianshu_username:   
+#twitter_username:   
 
 
-# PORTFOLIO
-collections:
-  portfolio:
-    output: true
-    permalink: /:collection/:name
 
 
-# BUILD SETTINGS
+# Build settings
+# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
+permalink: pretty
+paginate: 10
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+
+
+
+# Gems
+# from PR#40, to support local preview for Jekyll 3.0
+gems: [jekyll-paginate]
+
+
+
+
+# Markdown settings
+# replace redcarpet to kramdown,
+# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
+# document: http://jekyllrb.com/docs/configuration/#kramdown
 markdown: kramdown
 highlighter: rouge
-sass:
-  sass_dir: _sass
-  style: :compressed
-plugins: [jekyll-paginate, jekyll-seo-tag]
-#theme: type-on-strap # Uncomment if using the theme as a jekyll theme gem
-exclude: ["Gemfile", "Gemfile.lock", "type-on-strap.gemspec", "*.gem", "LICENSE", "README.md", "screenshot.png"]
+kramdown:
+  input: GFM                            # use Github Flavored Markdown !important
+
+
+
+# 评论系统
+# Disqus（https://disqus.com/）
+# disqus_username: 
+
+# Gitalk
+gitalk:
+  enable: true    #是否开启Gitalk评论
+  clientID: 82f3fb6574634b43d203                            #生成的clientID
+  clientSecret: 5790d9fdbfe9340d29810b694b3b2070a9a3b492    #生成的clientSecret
+  repo: zfengqi.github.io    #仓库名称
+  owner: zfengqi    #github用户名
+  admin: zfengqi
+  distractionFreeMode: true #是否启用类似FB的阴影遮罩
+
+
+# 统计
+
+# Analytics settings
+# Baidu Analytics
+ba_track_id: 4e57a5ab1562dbd41970a7967b31e6ae
+
+# Google Analytics
+ga_track_id:             # Format: UA-xxxxxx-xx
+ga_domain: auto             # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
+
+
+
+
+
+# Featured Tags
+featured-tags: true                     # 是否使用首页标签
+featured-condition-size: 2              # 相同标签数量大于这个数，才会出现在首页
+
+
+
+# Progressive Web Apps
+chrome-tab-theme-color: "#000000"
+service-worker: true
+
+
+
+# Friends
+friends: [
+    {
+        title: "MDN",
+        href: "https://developer.mozilla.org/zh-CN/"
+    }
+]

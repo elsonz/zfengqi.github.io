@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="keep learning.">
+    <meta name="keywords"  content="elson, elson's Blog, web, frontend">
+    <meta name="theme-color" content="#000000">
+    
+    <title>git基础 - Elson的博客 | web前端</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon  -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2016/01/12/git%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Elson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-ios9-web.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-ios9-web.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#git" title="git">git</a>
+                        
+                    </div>
+                    <h1>git基础</h1>
+                    
+                    
+                    <h2 class="subheading">【未完待续】git知识&备忘</h2>
+                    
+                    <span class="meta">Posted by elson on January 12, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="提交到本地版本库">提交到本地版本库</h2>
+<p><code class="highlighter-rouge">git add</code> &amp; <code class="highlighter-rouge">git commit</code></p>
+
+<p>git当中的<code class="highlighter-rouge">add</code>和<code class="highlighter-rouge">commit</code>与svn有所区别原因：分布式vs集中式</p>
+
+<p>由于git的分布式决定了我们每个人的电脑上都是一个完整的版本库(repository)，因此<code class="highlighter-rouge">add</code>和<code class="highlighter-rouge">commit</code>都是相对于自己本地的版本库而言的。</p>
+
+<p>版本库里存了很多东西，其中最重要的就是：</p>
+<ol>
+  <li>称为stage（或者叫index）的<strong>暂存区</strong>；</li>
+  <li>还有Git为我们自动创建的<strong>第一个分支</strong>，即主干<code class="highlighter-rouge">master</code>，以及指向master的一个指针叫<code class="highlighter-rouge">HEAD</code>。</li>
+</ol>
+
+<h4 id="关于head">关于<code class="highlighter-rouge">HEAD</code></h4>
+<p><code class="highlighter-rouge">HEAD</code>意思是当前分支的最新版本，但其实它直接指向的是当前分支。</p>
+
+<p>如果只有一个主分支，即主干<code class="highlighter-rouge">master</code>，那<code class="highlighter-rouge">HEAD</code>指向的是<code class="highlighter-rouge">master</code>，而<code class="highlighter-rouge">master</code>再指向于最新版本</p>
+
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fpvbown85ej308d047mwz.jpg" alt="HEAD与master" /></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git add a.txt // 添加某文件到本地版本库的暂存区
+<span class="nv">$ </span>git add b.txt
+<span class="nv">$ </span>git add <span class="nb">.</span>     // 添加所有non-version文件到本地库暂存区
+<span class="nv">$ </span>git commit <span class="nt">-m</span> <span class="s2">"add 2 files"</span> // 提交暂存区内所有文件到分支<span class="o">(</span>如master<span class="o">)</span>
+</code></pre></div></div>
+<p>添加文件到Git仓库，分两步：</p>
+
+<ul>
+  <li>
+    <p>第一步，使用命令<code class="highlighter-rouge">git add &lt;file&gt;</code> —— 暂存区</p>
+
+    <p><strong>注意，可反复多次使用，添加多个文件；</strong></p>
+  </li>
+  <li>
+    <p>第二步，使用命令<code class="highlighter-rouge">git commit</code> 完成。—— 分支</p>
+
+    <p><strong>注意，commit之后，暂存区就会被清空</strong></p>
+  </li>
+</ul>
+
+<p>ps. 这时只是添加到本地库，而不是远程的版本库github</p>
+
+<h2 id="远程库-github">远程库 github</h2>
+<h4 id="先有本地库后有远程库的时候如何关联远程库">先有本地库，后有远程库的时候，如何关联远程库</h4>
+<ol>
+  <li>github上新建一个repository</li>
+  <li><code class="highlighter-rouge">git remote add origin git@server-name:path/repo-name.git</code></li>
+</ol>
+
+<p>关联后，使用命令git push -u origin master第一次推送master分支的所有内容；</p>
+
+<p>此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；</p>
+
+<h4 id="克隆远程库">克隆远程库</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git clone git@github.com:michaelliao/learngit.git
+...
+<span class="nv">$ </span>git branch
+<span class="k">*</span>master
+</code></pre></div></div>
+<p>当使用clone命令克隆一个远程库时，默认情况下，只能看到本地的master分支。</p>
+
+<p>如果想要获取dev分支，在上面开发，怎么办？</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 必须创建远程origin的dev分支到本地
+<span class="nv">$ </span>git checkout <span class="nt">-b</span> dev origin/dev
+</code></pre></div></div>
+
+<h4 id="查看远程库信息">查看远程库信息</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git remote
+origin
+
+<span class="nv">$ </span>git remote <span class="nt">-v</span> // 详细信息
+octocat https://github.com/octocat/Spoon-Knife.git <span class="o">(</span>fetch<span class="o">)</span>
+octocat https://github.com/octocat/Spoon-Knife.git <span class="o">(</span>push<span class="o">)</span>
+origin  https://github.com/zfengqi/Spoon-Knife.git <span class="o">(</span>fetch<span class="o">)</span>
+origin  https://github.com/zfengqi/Spoon-Knife.git <span class="o">(</span>push<span class="o">)</span>
+// 上面显示了可以抓取和推送的origin的地址。如果没有推送权限，就看不到push的地址。
+</code></pre></div></div>
+
+<h4 id="推送分支">推送分支</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git push origin master // 指定本地分支，然后就会推送到对应的分支去
+<span class="nv">$ </span>git push origin dev
+</code></pre></div></div>
+
+<h4 id="抓取分支">抓取分支</h4>
+<p>因为远程分支版本比你的本地的要新，需要先用<code class="highlighter-rouge">git pull</code>试图合并，即update代码</p>
+
+<p>如果<code class="highlighter-rouge">git pull</code>合并有冲突，则需要解决冲突，并在本地提交；</p>
+
+<p>如果git pull提示 <strong>no tracking information</strong>，则说明本地分支和远程分支的链接关系没有创建</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git branch <span class="nt">--set-upstream</span> &lt;branch-name&gt; &lt;origin/branch-name&gt;
+</code></pre></div></div>
+
+<h2 id="版本回滚">版本回滚</h2>
+<ol>
+  <li><code class="highlighter-rouge">HEAD</code>指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git reset <span class="nt">--hard</span> commit_id
+<span class="nv">$ </span>git reset <span class="nt">--hard</span> HEAD^ // 回滚上个版本
+<span class="nv">$ </span>git reset <span class="nt">--hard</span> HEAD^^ // 回滚到上两个版本
+<span class="nv">$ </span>git reset <span class="nt">--hard</span> HEAD~100 // 回滚到前100个版本
+</code></pre></div></div>
+
+<ol>
+  <li>穿梭前，用git log可以查看提交历史，主要找版本号，以便确定要回滚到哪个版本。</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>git log
+    commit 5a396f23af1729fa0c0049c58d42fe0d71541665
+    Author: kei &lt;zfengqi90@gmail.com&gt;
+    Date:   Fri Jul 10 15:20:21 2015 +0800
+
+        Update README.md
+
+    commit e325faab05ad640d1e1dc31873dfd362b9c00a92
+    Author: zhangfengqi &lt;jackyzfq@qq.com&gt;
+    Date:   Fri Jul 10 12:50:58 2015 +0800
+
+        javascript继承总结
+
+    //如果嫌输出信息太多，看得眼花缭乱的，可以试试
+    <span class="nv">$ </span>git log <span class="nt">--pretty</span><span class="o">=</span>oneline
+    // 退出或者终止log 按q
+</code></pre></div></div>
+
+<ol>
+  <li>要重返未来，用<code class="highlighter-rouge">git reflog</code>查看命令历史，以便确定要回到未来的哪个版本</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>git reflog
+    9a2f804 HEAD@<span class="o">{</span>0<span class="o">}</span>: pull: Merge made by the <span class="s1">'recursive'</span> strategy.
+    3bb1509 HEAD@<span class="o">{</span>1<span class="o">}</span>: commit: 函数柯里化总结
+    e325faa HEAD@<span class="o">{</span>2<span class="o">}</span>: commit: javascript继承总结
+    bd0213d HEAD@<span class="o">{</span>3<span class="o">}</span>: clone: from https://github.com/zfengqi/blog-and-note.git
+</code></pre></div></div>
+
+<h2 id="暂存区与工作区之间的修改">暂存区与工作区之间的修改</h2>
+<h4 id="场景1当你改乱了工作区某个文件的内容想直接丢弃工作区的修改">场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改</h4>
+<p><strong>用命令<code class="highlighter-rouge">git checkout -- &lt;file&gt;</code></strong></p>
+
+<p>命令<code class="highlighter-rouge">git checkout -- readme.txt</code>意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：</p>
+
+<ol>
+  <li>readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；</li>
+  <li>一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改，本地文件就恢复到暂存区的版本。</li>
+</ol>
+
+<p>ps. 修改的是工作区的文件内容，即本地文件。</p>
+
+<h4 id="场景2当你不但改乱了工作区某个文件的内容还添加到了暂存区时想丢弃暂存区关于这个文件的记录">场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃暂存区关于这个文件的记录</h4>
+<p><strong>分两步</strong></p>
+
+<ul>
+  <li>第一步用命令<code class="highlighter-rouge">git reset HEAD &lt;file&gt;</code>，就回到了场景1,即撤销了对这个文件的add操作！</li>
+  <li>第二步按场景1操作。</li>
+</ul>
+
+<h4 id="场景3已经提交了不合适的修改到版本库时想要撤销本次提交版本回滚不过前提是没有推送到远程库">场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，版本回滚，不过前提是没有推送到远程库。</h4>
+
+<h4 id="注意git-checkout----file的含义">注意<code class="highlighter-rouge">git checkout -- &lt;file&gt;</code>的含义</h4>
+<p><code class="highlighter-rouge">git checkout -- &lt;file&gt;</code>其实是用版本库里的版本（包括暂存区）替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。</p>
+
+<h2 id="创建和合并分支">创建和合并分支</h2>
+<h4 id="git分支创建原理">git分支创建原理</h4>
+<p>在SVN当中，创建和切换分支的速度是很慢的，而在git里面就是1秒钟的事。</p>
+
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fpvbq36tefj30a706h0sk.jpg" alt="创建分支图示" /></p>
+
+<ul>
+  <li>
+    <p>当我们创建新的分支，例如dev时，Git新建了一个指针叫dev，指向master相同的提交，再把HEAD改为指向dev，就表示当前分支在dev上</p>
+  </li>
+  <li>
+    <p><strong>因此快的原因在于：</strong> git除了增加一个dev指针，改改HEAD的指向，工作区的文件都没有任何变化！</p>
+  </li>
+  <li>
+    <p>这时commit，dev和HEAD就会向前移动，而master则停留在原地。</p>
+  </li>
+</ul>
+
+<h4 id="创建合并分支命令">创建合并分支命令</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git branch // 查看已有的分支
+
+<span class="nv">$ </span>git branch new_branch // 创建分支<span class="o">(</span>并没有切换<span class="o">)</span>
+<span class="nv">$ </span>git checkout new_branch // 切换分支
+<span class="nv">$ </span>git checkout <span class="nt">-b</span> new_branch // 创建+切换到new_branch分支
+
+<span class="nv">$ </span>git branch <span class="nt">-d</span> new_branch // 删除分支
+<span class="nv">$ </span>git branch <span class="nt">-D</span> &lt;name&gt; //如果要丢弃一个没有被合并过的分支，可以强行删除
+<span class="nv">$ </span>git merge new_branch // 在主干master上进行merge
+Updating d17efd8..fec145a
+Fast-forward
+ readme.txt |    1 +
+ 1 file changed, 1 insertion<span class="o">(</span>+<span class="o">)</span>
+</code></pre></div></div>
+<p><code class="highlighter-rouge">Fast-forward</code> 告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。</p>
+
+<h4 id="切换分支时出现的状况">切换分支时出现的状况</h4>
+<p>当前分支如果有没add和commit的内容的话，是没法切换到其他分支的</p>
+
+<p>如果暂时并不想commit，但是又有需要切换到其他分支的话，怎么办？</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git stash // 把当前工作现场“储藏”起来，等以后回来这个分支再继续工作
+<span class="nv">$ </span>git stash list
+stash@<span class="o">{</span>0<span class="o">}</span>: WIP on dev: 6224937 add merge
+</code></pre></div></div>
+
+<p>当再回到此分支时，发现暂存区是空的！需要把之前stash的内容恢复一下</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git stash apply // 恢复后，stash内容并不删除，需要用git stash drop来删除
+<span class="nv">$ </span>git stash pop // 恢复的同时把stash内容也删了
+</code></pre></div></div>
+
+<p>stash的另一种使用场景：当当前分支代码没有commit时，是无法pull代码下来，这时需要先stash</p>
+
+<h4 id="解决冲突">解决冲突</h4>
+<p>当在不同的分支，对同一个文件的同一个位置进行了修改，各自commit之后merge时：</p>
+
+<p>这种情况下，Git无法执行“快速合并”，只能试图把各自的修改合并起来，但这种合并就可能会有冲突。</p>
+
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fpvbqlg7zfj30bt07kwed.jpg" alt="不同分支的提交合并冲突" /></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zhangfengqi@ED63038F43AD14D /D/zfengqi/github/Spoon-Knife <span class="o">(</span>master<span class="o">)</span>
+<span class="nv">$ </span>git merge branch222
+Auto-merging styles.css
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict <span class="k">in </span>styles.css
+Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then </span>commit the result.
+</code></pre></div></div>
+<p>这时候分支状态就会变成</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zhangfengqi@ED63038F43AD14D /D/zfengqi/github/Spoon-Knife <span class="o">(</span>master|MERGING<span class="o">)</span>
+</code></pre></div></div>
+<p>手动解决冲突：打开发生冲突的文件，保留最终要的部分</p>
+
+<p>Git用<code class="highlighter-rouge">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>，<code class="highlighter-rouge">=======</code>，<code class="highlighter-rouge">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> 标记出不同分支的内容</p>
+
+<p>修改后，再次add &amp; commit</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git log <span class="nt">--graph</span> //可以看到分支合并图。
+</code></pre></div></div>
+
+<h2 id="常用命令">常用命令</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//pwd用于显示当前目录
+<span class="nv">$ </span><span class="nb">pwd</span>
+/Users/michael/learngit
+
+//cat
+<span class="nv">$ </span><span class="nb">cat </span>readme.txt
+Git is a distributed version control system.
+Git is free software distributed under the GPL.
+Git has a mutable index called stage.
+Git tracks changes.
+</code></pre></div></div>
+
+<blockquote>
+  <p><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000</a></p>
+</blockquote>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/01/12/Pro-Git/" data-toggle="tooltip" data-placement="top" title="《Pro Git》 读书笔记1">
+                        Previous<br>
+                        <span>《Pro Git》 读书笔记1</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/02/28/Promise-basic/" data-toggle="tooltip" data-placement="top" title="Promise基础">
+                        Next<br>
+                        <span>Promise基础</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- 引入Gitalk评论插件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                    clientID: '82f3fb6574634b43d203',
+                    clientSecret: '5790d9fdbfe9340d29810b694b3b2070a9a3b492',
+                    repo: 'zfengqi.github.io',
+                    owner: 'zfengqi',
+                    admin: ['zfengqi'],
+                    distractionFreeMode: true,
+                    id: window.location.pathname,
+                    });
+                    gitalk.render('gitalk-container');
+                </script>
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+                				<a href="/tags/#javascript" title="javascript" rel="5">
+                                    javascript
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>LINKS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="https://developer.mozilla.org/zh-CN/">MDN</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/zfengqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Elson's Blog 2018
+                    <br>
+                    Theme on <a href="https://github.com/zfengqi/zfengqi.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zfengqi&repo=zfengqi.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4e57a5ab1562dbd41970a7967b31e6ae';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

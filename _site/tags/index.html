@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="keep learning.">
+    <meta name="keywords"  content="elson, elson's Blog, web, frontend">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Tags - Elson的博客 | web前端</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon  -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/tags/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Elson's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/tag-bg-o.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading" id="tag-heading">
+                    <h1>Tags</h1>
+                    <span class="subheading">keep learning</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 标签云 -->
+			<div id='tag_cloud' class="tags">
+				
+				<a href="#CSS" title="CSS" rel="1">CSS</a>
+				
+				<a href="#javascript" title="javascript" rel="5">javascript</a>
+				
+				<a href="#面试" title="面试" rel="1">面试</a>
+				
+				<a href="#git" title="git" rel="2">git</a>
+				
+				<a href="#异步编程" title="异步编程" rel="2">异步编程</a>
+				
+				<a href="#字符编码" title="字符编码" rel="1">字符编码</a>
+				
+				<a href="#计算机基础" title="计算机基础" rel="1">计算机基础</a>
+				
+			</div>
+
+            <!--<blockquote class="tag-comments">
+                标签命名规范：
+                    <li>行业观察、职位、公司优先使用中文</li>
+                    <li>外国产品、术语优先使用英文</li>
+            </blockquote>-->
+
+            <!-- 标签列表 -->
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="CSS">
+                    <span class="tag-text">CSS</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2015-04-16">2015-04-16</time>
+				  <a href="/2015/04/16/%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" title="清除浮动的几种方法">清除浮动的几种方法</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2015/04/16/%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/">
+				        <h2 class="post-title">
+                            清除浮动的几种方法
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            感觉现阶段清除浮动的方式主要利用的是 `clear:both` 和 `overflow:auto||hidden||scroll` 这两个css属性，只不过利用上述两者的实现方式有所不同而已。
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2015-04-16</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="javascript">
+                    <span class="tag-text">javascript</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-03-30">2017-03-30</time>
+				  <a href="/2017/03/30/promise-advance/" title="Promise 原理探究">Promise 原理探究</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2017/03/30/promise-advance/">
+				        <h2 class="post-title">
+                            Promise 原理探究
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            你真的了解Promise吗？看看这几道题，能不能轻松答出来？
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-03-30</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2016-02-28">2016-02-28</time>
+				  <a href="/2016/02/28/Promise-basic/" title="Promise基础">Promise基础</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2016/02/28/Promise-basic/">
+				        <h2 class="post-title">
+                            Promise基础
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Promise与Deferred相关知识的再阅读与提炼
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2016-02-28</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2015-09-25">2015-09-25</time>
+				  <a href="/2015/09/25/%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" title="一道面试题">一道面试题</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2015/09/25/%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/">
+				        <h2 class="post-title">
+                            一道面试题
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2015-09-25</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2015-07-12">2015-07-12</time>
+				  <a href="/2015/07/12/%E7%BB%A7%E6%89%BF/" title="js继承">js继承</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2015/07/12/%E7%BB%A7%E6%89%BF/">
+				        <h2 class="post-title">
+                            js继承
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            在《javascript模式》一书中，把继承分为了类式继承和原型继承，以下是对这部分的一个总结。
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2015-07-12</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2015-07-12">2015-07-12</time>
+				  <a href="/2015/07/12/%E5%87%BD%E6%95%B0curry%E5%8C%96/" title="函数curry化(Haskell Curry)">函数curry化(Haskell Curry)</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2015/07/12/%E5%87%BD%E6%95%B0curry%E5%8C%96/">
+				        <h2 class="post-title">
+                            函数curry化(Haskell Curry)
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2015-07-12</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="面试">
+                    <span class="tag-text">面试</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2015-09-25">2015-09-25</time>
+				  <a href="/2015/09/25/%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/" title="一道面试题">一道面试题</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2015/09/25/%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/">
+				        <h2 class="post-title">
+                            一道面试题
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2015-09-25</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="git">
+                    <span class="tag-text">git</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2016-01-12">2016-01-12</time>
+				  <a href="/2016/01/12/git%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="git基础">git基础</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2016/01/12/git%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">
+				        <h2 class="post-title">
+                            git基础
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            【未完待续】git知识&备忘
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2016-01-12</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2016-01-12">2016-01-12</time>
+				  <a href="/2016/01/12/Pro-Git/" title="《Pro Git》 读书笔记1">《Pro Git》 读书笔记1</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2016/01/12/Pro-Git/">
+				        <h2 class="post-title">
+                            《Pro Git》 读书笔记1
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2016-01-12</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="异步编程">
+                    <span class="tag-text">异步编程</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-03-30">2017-03-30</time>
+				  <a href="/2017/03/30/promise-advance/" title="Promise 原理探究">Promise 原理探究</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2017/03/30/promise-advance/">
+				        <h2 class="post-title">
+                            Promise 原理探究
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            你真的了解Promise吗？看看这几道题，能不能轻松答出来？
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-03-30</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2016-02-28">2016-02-28</time>
+				  <a href="/2016/02/28/Promise-basic/" title="Promise基础">Promise基础</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2016/02/28/Promise-basic/">
+				        <h2 class="post-title">
+                            Promise基础
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Promise与Deferred相关知识的再阅读与提炼
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2016-02-28</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="字符编码">
+                    <span class="tag-text">字符编码</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2016-05-26">2016-05-26</time>
+				  <a href="/2016/05/26/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E9%82%A3%E4%BA%9B%E4%BA%8B/" title="字符编码的那些事">字符编码的那些事</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2016/05/26/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+				        <h2 class="post-title">
+                            字符编码的那些事
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            字符编码相关知识的梳理和总结
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2016-05-26</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="计算机基础">
+                    <span class="tag-text">计算机基础</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2016-05-26">2016-05-26</time>
+				  <a href="/2016/05/26/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E9%82%A3%E4%BA%9B%E4%BA%8B/" title="字符编码的那些事">字符编码的那些事</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2016/05/26/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+				        <h2 class="post-title">
+                            字符编码的那些事
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            字符编码相关知识的梳理和总结
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2016-05-26</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/zfengqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Elson's Blog 2018
+                    <br>
+                    Theme on <a href="https://github.com/zfengqi/zfengqi.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zfengqi&repo=zfengqi.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4e57a5ab1562dbd41970a7967b31e6ae';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
