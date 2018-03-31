@@ -2,9 +2,10 @@
 layout:     post
 title:      Promise 原理探究
 subtitle:   你真的了解Promise吗？看看这几道题，能不能轻松答出来？
-date:       2017-03-30
+date:       2018-03-30
 author:     elson
 header-img: 
+header-bg-color: 337ab7
 catalog: true
 tags:
     - javascript

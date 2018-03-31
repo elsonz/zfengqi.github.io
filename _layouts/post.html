@@ -11,7 +11,7 @@ layout: default
     header.intro-header{
         position: relative;
         {% if page.header-bg-color %}background-color: #{{page.header-bg-color}};{% endif %}
-        background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')
+        {% if page.header-img %}background-image: url('{{ site.baseurl }}/{{ page.header-img }}'){% endif %}
     }
 
     {% if page.header-mask %}
