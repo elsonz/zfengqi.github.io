@@ -4,7 +4,7 @@ title:      Promise 原理探究
 subtitle:   你真的了解Promise吗？看看这几道题，能不能轻松答出来？
 date:       2017-03-30
 author:     elson
-header-img: img/post-bg-promise.jpg
+header-img: 
 catalog: true
 tags:
     - javascript

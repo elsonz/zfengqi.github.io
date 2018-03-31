@@ -4,7 +4,7 @@ title:      Promise基础
 subtitle:   Promise与Deferred相关知识的再阅读与提炼
 date:       2016-02-28
 author:     elson
-header-img: img/post-bg-promise.jpg
+header-img: 
 catalog: true
 tags:
     - javascript
