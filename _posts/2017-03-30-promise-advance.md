@@ -214,6 +214,7 @@ new MyPromise((resolve, reject) => {
 - pending：此时状态仍未流转，因此分别缓存`onResolved`和`onRejected`，提供给`resolve`和`reject`函数后续调用。
 - fulfilled(resolved)：调用`onResolved`
 - rejected：调用`onRejected`
+
 ``` javascript
 MyPromise.prototype.then = function (onResolved, onRejected) {
     // 未决议时 先存起来 等待决议
@@ -233,6 +234,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
 ```
 
 reject函数与resolve的实现方式类似，状态流转成rejected后，调用`onRejected`函数。需要注意的是每个promise的状态只能流转一次，因此`resolve`和`reject`中需要判断其状态，否则先后调用`resolve`和`reject`函数（见上面的执行用例）会出现把promise的状态由resolved流转为rejected的诡异情况。
+
 ``` javascript
 this.reject = function (err) {
 	// 每个promise的状态只能流转一次
@@ -250,6 +252,7 @@ this.reject = function (err) {
 ```
 
 同时在resolve中加入try catch捕获非预期错误后调用reject流转状态。
+
 ``` javascript
 this.resolve = function (val) {
     try {
@@ -275,6 +278,7 @@ this.resolve = function (val) {
 3. 当`then`未传入任何回调，此时应该透传上一个promise的结果
 
 ### 1. 实现源码
+
 ``` javascript
 function MyPromise(fn) {
     this.state = 'pending'; // 状态
@@ -365,6 +369,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
 ```
 
 ### 2. 执行用例
+
 ``` javascript
 new MyPromise((resolve, reject) => {
     resolve(100);
@@ -391,6 +396,7 @@ new MyPromise((resolve, reject) => {
 ### 3. 实现分析
 #### （1）每次调用`then`均返回一个新的Promise
 这一点除了用于支持链式调用以外，还很好地解决了一个Promise的状态只能流转一次的规定，因为调用`resolve`或`reject`之后，这个Promise的生命周期就结束了。也就是说链式调用`then`，每次处理的都是一个全新的Promise。
+
 ``` javascript
 Promise.prototype.then = function (onResolve, onReject) {
     return new Promise((resolve, reject) => {
@@ -401,6 +407,7 @@ Promise.prototype.then = function (onResolve, onReject) {
 ```
 #### （2）反解内部的promise
 上面几个版本的用例中，`resolve`接受的值以及`then`的返回值都是一个简单的字符或数字，如果类似下面，是一个promise的话，还需要p2和p3的值200和300解出来之后再作为决议值传给`then`。
+
 ``` javascript
 // example
 new MyPromise((resolve, reject) => { // 父promise
