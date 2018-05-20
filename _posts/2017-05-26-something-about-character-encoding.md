@@ -275,6 +275,7 @@ getRealLen('?????'); // 5
 4. 页面中的<meta charset="UTF-8">
 
 **不同编码下的BOM**
+
 | BOM（U+FEFF） | 编码方式|
 | ----------- | --------------------- |
 | 00 00 FE FF | UTF-32, big-endian    |
