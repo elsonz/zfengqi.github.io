@@ -1,24 +1,24 @@
 ---
 layout:     post
-title:      带你撸一个vue弹窗插件
+title:      来，vue弹窗插件走一个
 subtitle:   vue弹窗插件开发、插件中使用slot
 date:       2018-05-12
 author:     elson
-header-img: 
+header-img:
 header-bg-color: 337ab7
 catalog: true
 tags:
     - vuejs
 ---
 
-# 带你撸一个vue弹窗插件
+# 来，vue弹窗插件走一个
 
 ## 零、前言
 记得有一次组内分享，以弹窗为例讲了如何创建可复用的vue组件，后面发现这个例子并不恰当（bei tiao zhan），使用组件需要先import，再注册，然后再按照`props in events out`原则使用，无论从流程或者使用方式来说都相当麻烦。
 
 每个页面在使用弹窗时如果都按照这个流程走一遍的话，我们的脸基本上就黑了。
 
-弹窗应该是插件，注册一次永久使用，如`this.$alert('xxx')`。下面我们就一起撸一个弹窗插件。
+弹窗应该是插件，注册一次永久使用，如`this.$alert('QQ音乐')`。下面我们就一起撸一个试试。
 
 > 以下例子在[vuetify.js](https://vuetifyjs.com/zh-Hans/components/dialogs)的弹窗`v-dialog`组件基础上进行，[这里查看完整demo源码](https://github.com/zfengqi/vue-dialogs-plugin-demo)。
 
@@ -105,7 +105,7 @@ Vue.prototype.$alert = (opt = {}) => {
     let vm = new Dialogs({el: document.createElement('div')});
     // 将上面实例使用的根DOM元素放到body中
     document.body.appendChild(vm.$el);
-	
+
 	// 保存当前弹窗实例
 	this.vm = vm;
 
@@ -236,15 +236,15 @@ Vue.prototype.$alert = (opt = {}) => {
 	    width: 300,
 	    cb: null
     };
-	
+
 	// 传入字符串时指定为content
     if (typeof opt == 'string') {
 	    defaultOpt.content = opt;
     }
-	
+
 	// 覆盖关系：调用参数 -> 插件安装时初始化参数 -> 默认参数
     opt = {...defaultOpt, ...installOptions, ...opt};
-	
+
 	let Dialogs = Vue.extend(Dialog);
     let vm = new Dialogs({el: document.createElement('div')});
     document.body.appendChild(vm.$el);
@@ -252,7 +252,7 @@ Vue.prototype.$alert = (opt = {}) => {
 
     // 最终传参给组件实例
     Object.assign(vm, opt);
-	
+
 	...
 };
 ```
@@ -274,7 +274,7 @@ const dialog = {
 		Vue.prototype.$alert = (opt = {}) => {
             this.create('alert', Vue, options, opt);
         };
-		
+
 		Vue.prototype.$confirm = (opt = {}) => {
             this.create('confirm', Vue, options, opt);
         };
@@ -283,13 +283,39 @@ const dialog = {
 ```
 
 #### 多次点击时，防止页面同时出现多个弹窗
+之前的处理是：多次点击按钮时，~~销毁之前的弹窗~~。
+这样就会造成其他弹窗干扰当前弹窗，当前弹窗会直接消失。
+
+其实应该实现弹窗队列：同时多处调用弹窗方法，此时应该放进队列里，待当前弹窗消失后，再调取队列执行。
 
 ``` javascript
-// 多次点击按钮时，销毁之前的弹窗
-if (this.vm) {
-   document.body.removeChild(this.vm.$el);
-   this.vm.$destroy();
-   this.vm = null;
+const dialogs = {
+    vm: null, // 保存当前实例
+    queue: [],
+    create(componentType = 'alert', Vue, installOptions, opt) {
+        // OUTDATE: 多次点击按钮时，销毁之前的弹窗
+        // UPDATE: 改为：当前弹窗未关闭再次调用时，保存到栈
+        if (this.vm) {
+            this.queue.push({type: componentType == 'confirm' ? '$confirm' : '$alert', opt});
+            return;
+        }
+
+        ...
+
+        vm.$on('close', (btnType) => {
+            setTimeout(() => {
+                document.body.removeChild(vm.$el);
+                vm.$destroy();
+                typeof opt.cb == 'function' && opt.cb((componentType == 'confirm' && btnType == 1) ? 1 : 0);
+                this.vm = null;
+                // 查看栈中有无未执行的弹窗
+                if (this.queue.length > 0) {
+                    let cur = this.queue.shift();
+                    Vue.prototype[cur.type](cur.opt);
+                }
+            }, 400); // 缓出动画为300ms，因此延迟400ms后再销毁实例
+        });
+    }
 }
 ```
 
@@ -301,7 +327,7 @@ vm.$on('close', (btnType) => {
         document.body.removeChild(vm.$el);
         vm.$destroy();
         this.vm = null;
-        
+
         typeof opt.cb == 'function' && opt.cb((componentType == 'confirm' && btnType == 1) ? 1 : 0);
     }, 400); // 缓出动画为300ms，因此延迟400ms后再销毁实例
 });
@@ -344,7 +370,7 @@ Vue.prototype.$uploadFile = (opt = {}) => {
     const slotTemplate = `传入上例中content的内容`;
 	// 编译模板，返回渲染函数
     const renderer = Vue.compile(slotTemplate);
-    
+
     const slotContent = {
         data() {
             return {uploadShow: false, fileName: '', label: '', formData: null}
