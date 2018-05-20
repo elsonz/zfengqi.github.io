@@ -4,7 +4,7 @@ title:      字符编码的那些事
 subtitle:   字符编码相关知识的梳理和总结
 date:       2017-05-26
 author:     elson
-header-img: 
+header-img:
 header-bg-color: 337ab7
 catalog: true
 tags:
@@ -22,7 +22,7 @@ tags:
 - 1bit = 1个二进制位 = 0 或 1
 
 
-- 8bit = 8个0或1（2^8=256个组合）= 1字节Byte 
+- 8bit = 8个0或1（2^8=256个组合）= 1字节Byte
 
 值得一提，在计算带宽大小(bps)的时候要注意是以bit作为单位。
 
@@ -146,7 +146,7 @@ function findSurrogatesPair(codePoint) {
 	var offset = codePoint - 0x10000;
 	var lead = 0xd800 + (offset >> 10);
 	var tail = 0xdc00 + (offset & 0x3ff); // 和1023 位与 把前十位都置为0
-  
+
 	return [lead.toString(16) + tail.toString(16)];
 }
 
@@ -220,7 +220,7 @@ console.log('\uD842\uDFB7'); // '?'
 此外，上面还有三种表示法看起来怪怪的
 
 ``` javascript
-'\z' === 'z'  // true 
+'\z' === 'z'  // true
 '\172' === 'z' // true 八进制
 '\x7A' === 'z' // true 十六进制
 ```
@@ -274,14 +274,14 @@ getRealLen('?????'); // 5
 3. `<script>`标签中的charset属性
 4. 页面中的<meta charset="UTF-8">
 
-> **不同编码下的BOM**
-> | BOM（U+FEFF） | 编码方式                  |
-> | ----------- | --------------------- |
-> | 00 00 FE FF | UTF-32, big-endian    |
-> | FF FE 00 00 | UTF-32, little-endian |
-> | FE FF       | UTF-16, big-endian    |
-> | FF FE       | UTF-16, little-endian |
-> | EF BB BF    | UTF-8                 |
+**不同编码下的BOM**
+| BOM（U+FEFF） | 编码方式|
+| ----------- | --------------------- |
+| 00 00 FE FF | UTF-32, big-endian    |
+| FF FE 00 00 | UTF-32, little-endian |
+| FE FF       | UTF-16, big-endian    |
+| FF FE       | UTF-16, little-endian |
+| EF BB BF    | UTF-8                 |
 
 
 ## 五、HTML的转义字符
@@ -331,7 +331,7 @@ $dom.html(); // 中国
 
 - [字符集和字符编码(Charset & Encoding)](http://www.cnblogs.com/skynet/archive/2011/05/03/2035105.html)
 
-- [JavaScript特殊字符]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#String_literals) 
+- [JavaScript特殊字符]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#String_literals)
 
 - [Unicode and JavaScript](http://speakingjs.com/es5/ch24.html)
 
