@@ -398,3 +398,5 @@ Vue.prototype.$uploadFile = (opt = {}) => {
 
 ## 后记
 以上是对开发vue弹窗插件的梳理总结，vue的插件机制很强大，弹窗涉及的范围比较有限，有机会再对其他复杂插件开发以及vue源码进行研究。
+
+> 我的博客即将搬运同步至腾讯云+社区，邀请大家一同入驻：https://cloud.tencent.com/developer/support-plan?invite_code=6mq9jujn5bb2
