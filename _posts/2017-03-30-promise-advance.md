@@ -4,7 +4,7 @@ title:      Promise 原理探究
 subtitle:   你真的了解Promise吗？看看这几道题，能不能轻松答出来？
 date:       2018-03-30
 author:     elson
-header-img: 
+header-img:
 header-bg-color: 337ab7
 catalog: true
 tags:
@@ -17,26 +17,26 @@ tags:
 
 看看下面这几道题，能不能轻松答出来？
 > 假设 doSomething() 和 doSomethingElse() 返回一个 promise 对象，这些 promise 对象都代表了一个异步操作。
-> 
+>
 > 那么：doSomething/doSomethingElse/finalHandler这三者的执行时序是怎样的？finalHandler分别会接受到什么值？
-> 
+>
 > 出处：https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html
 
 ``` javascript
-// ① 
+// ①
 doSomething().then(function () {
     return doSomethingElse();
 }).then(finalHandler);
 
-// ② 
+// ②
 doSomething().then(function () {
     doSomethingElse();
 }).then(finalHandler);
 
-// ③ 
+// ③
 doSomething().then(doSomethingElse()).then(finalHandler);
 
-// ④ 
+// ④
 doSomething().then(doSomethingElse).then(finalHandler);
 ```
 如果满脸黑人问号的话，下面我们通过实现一个简易的Promise——`MyPromise`来分析一下上面几道题。
@@ -44,6 +44,7 @@ doSomething().then(doSomethingElse).then(finalHandler);
 
 ## 一、雏形(v1)
 Promise最基本的用法：调用`resolve`时，then的回调才会被执行，并得到resolve时的值。
+
 ``` javascript
 new MyPromise(resolve => {
     resolve(2111);
@@ -57,6 +58,7 @@ new MyPromise(resolve => {
 对于`resolve`而言，它的作用就是从闭包中取出then的回调进行调用，并透传参数值。
 
 这里需要将callback的调用时机通过settimout放到下一事件循环中，让then方法先调用，否则会报`TypeError: callback is not a function`
+
 ``` javascript
 function MyPromise(cb) {
     let callback = null;
@@ -76,6 +78,7 @@ function MyPromise(cb) {
 ```
 
 ### 2. 问题
+
 ``` javascript
 var pms = new MyPromise(function (resolve, reject) {
     resolve(2111);
@@ -85,7 +88,7 @@ var pms = new MyPromise(function (resolve, reject) {
 // TypeError: callback is not a function
 setTimeout(function () {
 	pms.then(function (val) {
-	    console.log(val); 
+	    console.log(val);
 	});
 }, 100);
 ```
@@ -94,6 +97,7 @@ setTimeout(function () {
 
 ## 二、引入状态流转(v2)
 通过状态流转，管理调用时序。这也是Promise规范规定的一个Promise有且仅有的三种状态之一：pending/fulfilled(resolved)/rejected (rejected这一版先不引入)
+
 - 状态初始值为pending
 - then早于resolve调用时：此时状态值仍是pending，因此可以保存onResolve回调，等待resolve调用
 - resolve早于then调用时：保存决议值，状态流转为resolved；等待then调用
@@ -119,7 +123,7 @@ function MyPromise(cb) {
     function resolve(newVal) {
         resolvedVal = newVal; // 保存决议值
         state = 'resolved'; // 流转状态
-		
+
         // 如then早被调用已保存了的回调，则可以直接执行
         if (typeof cachedResolved == 'function') {
             cachedResolved(resolvedVal);
@@ -136,6 +140,7 @@ function MyPromise(cb) {
 除了resolve函数能够流转状态之外，还有一个reject函数，调用后将会把当前promise的状态流转成rejected，用作异常处理。
 
 ### 1. 实现源码
+
 ``` javascript
 function MyPromise(fn) {
 	this.state = 'pending'; // 状态
@@ -143,7 +148,7 @@ function MyPromise(fn) {
     this.rejectedReason = null; // 拒绝值
     this.onResolved = null; // resolve后的注册回调
     this.onRejected = null; // reject后的注册回调
-	
+
 	this.resolve = function (val) {
 		try {
 			// 每个promise的状态只能流转一次
@@ -160,20 +165,20 @@ function MyPromise(fn) {
 			this.reject(err);
 		}
 	}
-	
+
 	this.reject = function (err) {
 		if (this.state != 'pending') {
 			return;
 		}
 		this.state = 'rejected';
 		this.rejectedReason = err;
-        
+
         if (typeof this.onRejected == 'function') {
             console.log('triggered by reject');
             this.onRejected(err);
         }
     }
-    
+
     typeof fn == 'function' && fn(this.resolve.bind(this), this.reject.bind(this));
 }
 
@@ -184,7 +189,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
         this.onRejected = onRejected;
         return;
     }
-    
+
     // 根据状态选择最终要调用的函数
     let finalCallback = this.state == 'resolved' ? onResolved : onRejected;
 
@@ -195,6 +200,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
 };
 ```
 ### 2. 执行用例
+
 ``` javascript
 new MyPromise((resolve, reject) => {
     setTimeout(() => {
@@ -223,7 +229,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
         this.onRejected = onRejected;
         return;
     }
-    
+
     let finalCallback = this.state == 'resolved' ? onResolved : onRejected;
 
     if (typeof finalCallback == 'function') {
@@ -284,8 +290,8 @@ function MyPromise(fn) {
     this.state = 'pending'; // 状态
     this.resolvedVal = ''; // 决议值
     this.rejectedReason = null; // 拒绝值
-    this.cached = null; 
-	
+    this.cached = null;
+
 	this.resolve = function (val) {
 		try {
             if (this.state != 'pending') {
@@ -300,7 +306,7 @@ function MyPromise(fn) {
 
 			this.state = 'resolved';
             this.resolvedVal = val;
-            
+
 			if (this.cached) {
 				this.handler(this.cached);
 			}
@@ -308,7 +314,7 @@ function MyPromise(fn) {
 			this.reject(err);
 		}
 	}
-	
+
 	this.reject = function (err) {
         if (this.state != 'pending') {
             return this.state == 'resolved' ? this.resolvedVal : this.rejectedReason;
@@ -316,12 +322,12 @@ function MyPromise(fn) {
 
 		this.state = 'rejected';
 		this.rejectedReason = err;
-        
+
         if (this.cached) {
             this.handler(this.cached);
         }
     }
-    
+
     typeof fn == 'function' && fn(this.resolve.bind(this), this.reject.bind(this));
 }
 
@@ -332,7 +338,7 @@ MyPromise.prototype.handler = function (opt = {}) {
         return;
     }
 
-    // 存在then未传入任何回调的情况，这时应该透传上一个promise的结果 
+    // 存在then未传入任何回调的情况，这时应该透传上一个promise的结果
     // new Promise(fn).then().then((val) => {console.log(val)})
     if (typeof opt.onResolved != 'function' && typeof opt.onRejected != 'function') {
         if (this.state == 'resolved') {
@@ -426,6 +432,7 @@ new MyPromise((resolve, reject) => { // 父promise
 });
 ```
 实现这个特性，可以在`resolve`内增加以下逻辑：当接收的参数是一个promise（thenable对象）时，执行该promise的`then`，将父promise的`resolve`和`reject`通过bind的方式绑定this后传入。目的是为了后面能够流转父promise的状态，若不流转状态的话（尝试将bind去掉），then1是不会被执行的。
+
 ``` javascript
 this.resolve = function (val) {
 	...
@@ -433,23 +440,25 @@ this.resolve = function (val) {
 	   val.then(this.resolve.bind(this), this.reject.bind(this));
 	   return;
 	}
-	
+
 	this.state = 'resolved';
     this.resolvedVal = val;
     ...
 }
 ```
 #### （3） then未传入任何回调，透传上一promise决议值
+
 ``` javascript
 new MyPromise(resovle => { // promise1
 	resolve(123);
 })
 .then() // promise2
 .then((val) => {
-	console.log(val) // 123 
+	console.log(val) // 123
 });
 ```
 每次调用`then`都会返回一个新的promise，如果要第二个then被调用，则需要将第一个then返回的promise2的状态流转成resolved。因此在`handler`中增加相关的条件判断。
+
 ``` javascript
 MyPromise.prototype.then = function (onResolved, onRejected) {
     return new MyPromise((resolve, reject) => {
@@ -461,7 +470,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
 
 MyPromise.prototype.handler = function (opt = {}) {
 	...
-	
+
     if (typeof opt.onResolved != 'function' && typeof opt.onRejected != 'function') {
         if (this.state == 'resolved') {
 	        // 流转promise2的状态，this.resolvedVal == 123
@@ -471,12 +480,13 @@ MyPromise.prototype.handler = function (opt = {}) {
         }
         return;
     }
-    
+
     ...
 };
 ```
 #### （4） 关于错误吞噬
 下面的`onRejected`不会执行，这一点现在就比较好理解了。每个then都会返回新的promise，错误是发生在p2里面的，而`onRejected`捕获的是p1的错误。
+
 ``` javascript
 new MyPromise(resolve => { // p1
 	resolve(666);
@@ -508,8 +518,8 @@ doSomething
                   |------------------|
                   finalHandler(undefined)
                   |------------------|
-           
-                  
+
+
 ③ doSomething().then(doSomethingElse()).then(finalHandler);
 doSomething
 |-----------------|
@@ -529,7 +539,7 @@ doSomething
 ```
 上面四道题的重点其实大致可以归到第四章分析里的·这三点
 1. 每次调用`then`均返回一个新的Promise
-2. 反解内部的promise 
+2. 反解内部的promise
 3. then未传入任何回调，透传上一promise决议值
 
 
