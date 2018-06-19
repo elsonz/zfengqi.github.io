@@ -18,6 +18,7 @@ div.highlighter-rouge pre, figure.highlight pre {
 
 .highlight code {
   font-family: Monaco,Consolas,"Courier New", monospace;
+  color: #fff;
 }
 
 div.highlighter-rouge>pre,div.highlighter-rouge pre.highlight,figure.highlight>pre,figure.highlight pre.highlight {
