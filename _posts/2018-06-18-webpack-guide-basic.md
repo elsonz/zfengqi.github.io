@@ -19,7 +19,7 @@ tags:
 
 此次采用webpack4，也顺便尝尝鲜。
 
-``` bash
+``` shell
 # webpack4 把命令行工具抽离成了独立包 webpack-cli
 npm install webpack webpack-cli -D
 ```
@@ -132,7 +132,7 @@ PS. 在output中，还有一个叫`publicPath`非常重要，设置不正确会�
 ### 2. 清空某目录或子目录及文件
 这里先插入一个实用功能，因为在每次打包后，dist目录都有无用文件残留，最好每次打包前都清空dist目录。
 
-``` bash
+``` shell
 npm install -D clean-webpack-plugin
 ```
 
@@ -155,7 +155,7 @@ module.exports = {
 ### 3. html自动构建
 回到正题，通过上面的配置，js已实现正确的进出关系，那该怎么引用呢，难道需要手动引入吗？下面看下怎样配置实现将html文件进行自动构建。这里需要借助插件。
 
-``` bash
+``` shell
 npm install html-webpack-plugin -D
 ```
 
@@ -224,7 +224,7 @@ module.exports = {
 #### loader
 处理less和css等非js资源，需要安装相对应的loader
 
-``` bash
+``` shell
 npm install -D css-loader # 负责处理其中的@import和url()
 npm install -D style-loader # 负责内联
 
@@ -275,7 +275,7 @@ module.exports = {
 
 > BTW: 有了之前的html自动构建配置，抽离后的CSS也会自动引入
 
-``` bash
+``` shell
 # @next为webpack4使用版本
 npm install -D extract-text-webpack-plugin@next
 ```
@@ -370,7 +370,7 @@ const extractCSS = new ExtractTextPlugin({
 
 #### (1) 安装依赖
 
-``` bash
+``` shell
 npm install -D url-loader file-loader
 ```
 
@@ -484,7 +484,7 @@ publicPath的值会作为前缀附加在loaders生成的所有URL前面。
 
 ### 7. ES6转义
 
-``` bash
+``` shell
 npm install -D babel-core babel-loader babel-preset-env babel-preset-stage-0
 ```
 - babel-core 核心包
@@ -535,7 +535,7 @@ devServer: {
 }
 ```
 
-``` bash
+``` shell
 ℹ ｢wds｣: webpack output is served from /
 ℹ ｢wds｣: Content not from webpack is served from ./public
 ```
