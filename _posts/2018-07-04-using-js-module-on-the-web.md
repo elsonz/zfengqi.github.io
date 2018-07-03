@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      [译] 浏览器的ES Modules
+title:      【译】浏览器的ES Modules
 subtitle:
 date:       2018-07-04
 author:     elson
