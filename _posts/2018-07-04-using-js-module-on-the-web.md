@@ -11,10 +11,10 @@ tags:
     - 模块化
 ---
 
+标题是意译的，原文说的JS modules，实际上就是ES6的模块化特性，通过`<script type="modules">`可以实现不经过打包直接在浏览器中import/export，此玩法确实让人眼前一亮。
+
 > 原文：《Using JavaScript modules on the web》
 > https://developers.google.com/web/fundamentals/primers/modules
-
-标题是意译的，原文说的JS modules，实际上就是ES6的模块化特性，通过`<script type="modules">`可以实现不经过打包直接在浏览器中import/export，此玩法确实让人眼前一亮。
 
 先看看`<script type="modules">`的[兼容性](https://caniuse.com/#feat=es6-module)。目前只有较新版本的chrome/firefox/safari/edge支持此特性，看来要普及使用还任重道远。下面跟着这篇文章深入了解一下涨涨姿势。
 ![](https://ws4.sinaimg.cn/large/006tKfTcgy1fslletg3xaj31kw0ppabf.jpg)
